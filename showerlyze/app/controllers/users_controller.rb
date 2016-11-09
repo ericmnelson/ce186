@@ -22,6 +22,11 @@ class UsersController < ApplicationController
     render :layout => "empty"
   end
 
+  # GET /dashboard
+  def dashboard
+    
+  end
+
   # GET /users/1/edit
   def edit
     puts params

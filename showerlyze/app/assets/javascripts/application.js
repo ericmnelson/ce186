@@ -16,6 +16,13 @@
 //= require metisMenu/jquery.metisMenu.js
 //= require pace/pace.min.js
 //= require slimscroll/jquery.slimscroll.min.js
+//= require flot/jquery.flot.js
+//= require flot/jquery.flot.tooltip.min.js
+//= require flot/jquery.flot.spline.js
+//= require flot/jquery.flot.resize.js
+//= require flot/jquery.flot.pie.js
+//= require flot/jquery.flot.symbol.js
+//= require flot/jquery.flot.time.js
 //= require parsley
 //= require bs-file-input.js
 //= require_tree .

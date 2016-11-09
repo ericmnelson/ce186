@@ -1,7 +1,8 @@
-class CreateTemperatures < ActiveRecord::Migration
+class CreateDataPoints < ActiveRecord::Migration
   def change
-    create_table :temperatures do |t|
+    create_table :data_points do |t|
       t.references :shower, index: true, foreign_key: true
+      t.float :flow_rate
       t.float :temp
       t.datetime :time
 

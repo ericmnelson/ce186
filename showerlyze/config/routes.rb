@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'users#index'
+  root 'users#dashboard'
   # root to: 'home#index'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   get '/signup' => 'users#new'
   # post '/users' => 'users#create'
+
+  # Called by Pi to create new shower
+  # post '/bathrooms/:bathroom_id/shower/create'
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

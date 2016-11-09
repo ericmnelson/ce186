@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 20161107021325) do
 
   add_index "bathrooms", ["house_id"], name: "index_bathrooms_on_house_id"
 
+  create_table "data_points", force: :cascade do |t|
+    t.integer  "shower_id"
+    t.float    "flow_rate"
+    t.float    "temp"
+    t.datetime "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "data_points", ["shower_id"], name: "index_data_points_on_shower_id"
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -58,16 +69,6 @@ ActiveRecord::Schema.define(version: 20161107021325) do
 
   add_index "showers", ["bathroom_id"], name: "index_showers_on_bathroom_id"
   add_index "showers", ["user_id"], name: "index_showers_on_user_id"
-
-  create_table "temperatures", force: :cascade do |t|
-    t.integer  "shower_id"
-    t.float    "temp"
-    t.datetime "time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "temperatures", ["shower_id"], name: "index_temperatures_on_shower_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
