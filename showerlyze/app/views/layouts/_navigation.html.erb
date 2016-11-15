@@ -1,4 +1,4 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation" >
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
@@ -22,14 +22,19 @@
             </li>
             <li class="<%= 'active' if current_page?('/') %>">
                 <%= link_to "/expenses" do %>
-                <i class="fa fa-home"></i> <span class="nav-label">Home</span>
+                <i class="fa fa-home"></i> <span class="nav-label">Dashboard</span>
                 <% end %>
             </li>
             <li class="<%= 'active' if current_page?('/') %>">
                 <%= link_to "/expenses" do %>
-                <i class="fa fa-gear"></i> <span class="nav-label">Settings</span>
+                <i class="fa fa-home"></i> <span class="nav-label">Dashboard</span>
                 <% end %>
             </li>
+            <!-- <li class="<%= 'active' if current_page?('/') %>">
+                <%= link_to "/expenses" do %>
+                <i class="fa fa-gear"></i> <span class="nav-label">Settings</span>
+                <% end %>
+            </li> -->
         </ul>
     </div>
 </nav>

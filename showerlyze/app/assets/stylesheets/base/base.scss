@@ -276,6 +276,11 @@ body.body-small .footer.fixed {
   padding: 0 10px 20px 10px;
 }
 
+.page-heading2 {
+  border-top: 0;
+  padding: 10px 10px 10px 10px;
+}
+
 .panel-heading h1, .panel-heading h2 {
   margin-bottom: 5px;
 }
@@ -656,6 +661,26 @@ table.table-mail tr td {
 }
 
 /* BACKGROUNDS */
+
+.gradient-blue {
+  background: linear-gradient(to top, #50C9C3 , #96DEDA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.gradient-blue-header {
+  background: -webkit-linear-gradient(#50C9C3 , #96DEDA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.aqua-bg {
+  background-color: #96DEDA; /* or #96DEDA */
+}
+
+.page-title-p {
+  font-weight: 900;
+  font-size: 30px;
+  margin: 0 0 0 30px;
+}
 
 .gray-bg {
   background-color: $gray;

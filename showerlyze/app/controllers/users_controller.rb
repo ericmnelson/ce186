@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
   # GET /dashboard
   def dashboard
-    
+    @users = User.where(:house => current_house)
   end
 
   # GET /users/1/edit

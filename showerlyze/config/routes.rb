@@ -25,4 +25,7 @@ Rails.application.routes.draw do
 
   get '/charges/update_status/:id' => 'charges#update_status', as: :update_charge_status
 
+  get '/houses/:house_id/showers/last_week.json' => 'showers#last_week'
+  get '/houses/:house_id/showers/pie_chart_data.json' => 'showers#pie_chart_data'
+
 end

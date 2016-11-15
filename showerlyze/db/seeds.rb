@@ -9,10 +9,11 @@
 User.destroy_all
 Delayed::Job.destroy_all
 House.destroy_all
+Shower.destroy_all
 
 ## HOUSES  ##
 houses = [{:name => "ATO"},
-          {:name => "2622 Dana"}]
+          {:name => "2622 Dana St."}]
 
 house_instances = []
 houses.each do |house|
@@ -79,7 +80,7 @@ end
 showers = {gige => generate_rand_start_end(0),
            val => generate_rand_start_end(3),
            yan => generate_rand_start_end(2),
-           anne => generate_rand_start_end(5), 
+           anne => generate_rand_start_end(5),
            paul => generate_rand_start_end(-2),
          }
 

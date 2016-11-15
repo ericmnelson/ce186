@@ -30,6 +30,9 @@ Myapp::Application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+  config.time_zone = 'Pacific Time (US & Canada)'
+  config.active_record.default_timezone = :local
+
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
 
