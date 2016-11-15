@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161107021325) do
+ActiveRecord::Schema.define(version: 20161110090142) do
 
   create_table "bathrooms", force: :cascade do |t|
     t.string   "name"
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 20161107021325) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
+    t.boolean  "shower_on"
+    t.boolean  "temp_ready"
   end
 
   add_index "showers", ["bathroom_id"], name: "index_showers_on_bathroom_id"
@@ -83,6 +85,8 @@ ActiveRecord::Schema.define(version: 20161107021325) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "phone_number"
+    t.string   "passcode"
+    t.float    "preferred_temp"
   end
 
   add_index "users", ["house_id"], name: "index_users_on_house_id"

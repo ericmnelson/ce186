@@ -16,14 +16,15 @@ Rails.application.routes.draw do
   get '/signup' => 'users#new'
   # post '/users' => 'users#create'
 
-  # Called by Pi to create new shower
-  # post '/bathrooms/:bathroom_id/shower/create'
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
-  get '/charges/update_status/:id' => 'charges#update_status', as: :update_charge_status
+  # Called by Pi to create new shower
+  post '/bathroom/:bathroom_id/shower/create' => 'showers#create', as: :create_shower
+  post '/shower/:shower_id/data_point/create' => 'data_points#create', as: :create_data_point
+
 
   get '/houses/:house_id/showers/last_week.json' => 'showers#last_week'
   get '/houses/:house_id/showers/pie_chart_data.json' => 'showers#pie_chart_data'
