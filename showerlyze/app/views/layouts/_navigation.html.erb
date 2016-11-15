@@ -25,16 +25,12 @@
                 <i class="fa fa-home"></i> <span class="nav-label">Dashboard</span>
                 <% end %>
             </li>
-            <li class="<%= 'active' if current_page?('/') %>">
-                <%= link_to "/expenses" do %>
-                <i class="fa fa-home"></i> <span class="nav-label">Dashboard</span>
+            <li class="<%= 'active' if !current_page?('/') %>">
+                <%= link_to "/users/"+current_user.id.to_s do %>
+                  <i class="fa fa-user"></i> <span class="nav-label">Profie</span>
                 <% end %>
             </li>
-            <!-- <li class="<%= 'active' if current_page?('/') %>">
-                <%= link_to "/expenses" do %>
-                <i class="fa fa-gear"></i> <span class="nav-label">Settings</span>
-                <% end %>
-            </li> -->
+
         </ul>
     </div>
 </nav>

@@ -67,21 +67,21 @@ paul = User.find_by_first_name("Pauline")
 anne = User.find_by_first_name("Anne")
 yan = User.find_by_first_name("Yannie")
 
-def generate_rand_start_end hour_diff
+def generate_rand_start_end(hour_diff, dur_weight)
   time_now = Time.zone.now - hour_diff.hours
   rand_datetimes = [{:start_time => time_now, :end_time => time_now + 10.minutes}]
-  (1..10).each do |ind|
+  (1..18).each do |ind|
     start = time_now - ind.days + (-5+rand(10).hours)
-    rand_datetimes << {:start_time => start, :end_time => start + (5+rand(10)).minutes}
+    rand_datetimes << {:start_time => start, :end_time => start + (5+rand(5 + dur_weight)).minutes}
   end
   return rand_datetimes
 end
 
-showers = {gige => generate_rand_start_end(0),
-           val => generate_rand_start_end(3),
-           yan => generate_rand_start_end(2),
-           anne => generate_rand_start_end(5),
-           paul => generate_rand_start_end(-2),
+showers = {gige => generate_rand_start_end(0,0),
+           val => generate_rand_start_end(3, 20),
+           yan => generate_rand_start_end(2, 10),
+           anne => generate_rand_start_end(5, 15),
+           paul => generate_rand_start_end(-2, 5),
          }
 
 

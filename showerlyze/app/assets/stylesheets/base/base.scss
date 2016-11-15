@@ -663,11 +663,11 @@ table.table-mail tr td {
 /* BACKGROUNDS */
 
 .gradient-blue {
-  background: linear-gradient(to top, #50C9C3 , #96DEDA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top, #78E3FD , #96DEDA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .gradient-blue-header {
-  background: -webkit-linear-gradient(#50C9C3 , #96DEDA);
+  background: -webkit-linear-gradient(#78E3FD , #96DEDA);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -769,7 +769,7 @@ table.table-mail tr td {
 }
 
 .progress-bar {
-  background-color: $navy;
+  background-color: #50C9C3;
 }
 
 .progress-small, .progress-small .progress-bar {
