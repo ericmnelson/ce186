@@ -16,6 +16,7 @@ class ShowersController < ApplicationController
     else
       render :json => {:ERROR => :NO_USER_FOUND}
     end
+  end
 
   def last_week
     h = House.find_by_id(params[:house_id])

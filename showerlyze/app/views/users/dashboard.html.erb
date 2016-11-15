@@ -7,8 +7,8 @@
     </div>
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
-<div class="row">
-    <div class="col-lg-12">
+<div class="row" >
+    <div class="col-lg-12" >
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>Showers</h5>
@@ -21,7 +21,7 @@
             <div class="ibox-content">
                 <div class="row">
                 <div class="col-lg-8">
-                    <div class="flot-chart">
+                    <div class="flot-chart" style="min-height:400px;">
                         <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                     </div>
                 </div>
@@ -31,12 +31,17 @@
                             <h2 id="num_showers" class="no-margins"></h2>
                             <small>Number of showers in period</small>
                             <div id="num_showers_change" class="stat-percent"> </div>
-
+                            <div class="progress progress-mini">
+                                <div id="num_showers_change_bar" style="width: 48%;" class="progress-bar"></div>
+                            </div>
                         </li>
                         <li>
                             <h2 id="total_duration"class="no-margins "></h2>
                             <small>Total duration of showers in period</small>
                             <div id="total_duration_change" class="stat-percent"> </div>
+                            <div class="progress progress-mini">
+                                <div id="total_duration_change_bar" style="width: 48%;" class="progress-bar"></div>
+                            </div>
                         </li>
                         </ul>
                     </div>
@@ -112,236 +117,268 @@
 </div>
 
 
-    <script>
-        $(document).ready(function() {
-            var level_up = '<i class="fa fa-level-up text-navy"></i>'
-            var level_down = '<i class="fa fa-level-down text-navy"></i>'
+<script>
+var theme_colors = ["#42FFCB", "#78E3FD", "#48BEFF", "#3DFAFF", "#43C59E"]
+Highcharts.theme = {
+    colors: theme_colors,
+    title: {
+        style: {
+            color: '#000',
+            font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
+        }
+    },
+    subtitle: {
+        style: {
+            color: '#666666',
+            font: 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+        }
+    },
 
-            var format_change = function(str){
-              str += "% ";
-              if (str.startsWith("-")){
-                str += level_down;
-              } else {
-                str += level_up;
-              }
-              return str
+    legend: {
+        itemStyle: {
+            font: '9pt Trebuchet MS, Verdana, sans-serif',
+            color: 'black'
+        },
+        itemHoverStyle:{
+            color: 'gray'
+        }
+    }
+};
+Highcharts.setOptions(Highcharts.theme);
+$(document).ready(function() {
+    var level_up = '<i class="fa fa-level-up text-navy"></i>'
+    var level_down = '<i class="fa fa-level-down text-navy"></i>'
+
+    var format_change = function(str){
+      str += "% ";
+      if (str.startsWith("-")){
+        str += level_down;
+      } else {
+        str += level_up;
+      }
+      return str
+    }
+
+    $.getJSON("/houses/34/showers/pie_chart_data.json", function(data){
+      make_pie_chart(data)
+    });
+
+    $.getJSON("/houses/34/showers/last_week.json", function(data){
+      total_duration_change = format_change(data['total_duration_change'])
+      $("#total_duration_change_bar").css("width", data['total_duration_change']+"%")
+
+      num_showers_change = format_change(data['num_showers_change'])
+      $("#num_showers_change_bar").css("width", data['num_showers_change']+"%")
+
+      $("#total_duration").text(data['total_duration'] + " minutes");
+      $("#total_duration_change").html(total_duration_change);
+      $("#num_showers").text(data['num_showers']);
+      $("#num_showers_change").html(num_showers_change);
+    })
+
+    var data2 = [
+        [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
+        [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
+        [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
+        [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
+        [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
+        [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
+        [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
+        [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
+    ];
+
+    var data3 = [
+        [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+        [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+        [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+        [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+        [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+        [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+        [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+        [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
+    ];
+
+    var doughnutOptions = {
+        legend: {
+            display: true,
+            position: "bottom"
+        },
+        title: {
+            display: true,
+            text: 'Shower Duration per User in last week'
+        },
+        cutoutPercentage: 35,
+        segmentShowStroke: true,
+        segmentStrokeColor: "#fff",
+        segmentStrokeWidth: 2,
+        percentageInnerCutout: 45, // This is 0 for Pie charts
+        animationSteps: 100,
+        animationEasing: "easeOutBounce",
+        animateRotate: true,
+        animateScale: false,
+        responsive: true,
+    };
+
+    var make_pie_chart = function(data){
+      var ctx = $("#user-pie-chart");
+      data["datasets"][0]["backgroundColor"] = theme_colors
+      data["datasets"][0]["hoverBackgroundColor"] = theme_colors
+      var myPieChart = new Chart(ctx,{
+          type: 'doughnut',
+          data: data,
+          options: doughnutOptions
+      });
+    }
+
+    var dataset = [
+        {
+            label: "Number of orders",
+            data: data3,
+            color: "#1ab394",
+            bars: {
+                show: true,
+                align: "center",
+                barWidth: 24 * 60 * 60 * 600,
+                lineWidth:0
             }
 
-            $.getJSON("/houses/34/showers/pie_chart_data.json", function(data){
-              make_pie_chart(data)
-            });
+        }, {
+            label: "Payments",
+            data: data2,
+            yaxis: 2,
+            color: "#1C84C6",
+            lines: {
+                lineWidth:1,
+                    show: true,
+                    fill: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 0.2
+                    }, {
+                        opacity: 0.4
+                    }]
+                }
+            },
+            splines: {
+                show: false,
+                tension: 0.6,
+                lineWidth: 1,
+                fill: 0.1
+            },
+        }
+    ];
 
-            $.getJSON("/houses/34/showers/last_week.json", function(data){
-              total_duration_change = format_change(data['total_duration_change'])
-              num_showers_change = format_change(data['num_showers_change'])
 
-              $("#total_duration").text(data['total_duration'] + " minutes");
-              $("#total_duration_change").html(total_duration_change);
-              $("#num_showers").text(data['num_showers']);
-              $("#num_showers_change").html(num_showers_change);
-            })
+    var options = {
+        xaxis: {
+            mode: "time",
+            tickSize: [3, "day"],
+            tickLength: 0,
+            axisLabel: "Date",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Arial',
+            axisLabelPadding: 10,
+            color: "#d5d5d5"
+        },
+        yaxes: [{
+            position: "left",
+            max: 1070,
+            color: "#d5d5d5",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Arial',
+            axisLabelPadding: 3
+        }, {
+            position: "right",
+            clolor: "#d5d5d5",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: ' Arial',
+            axisLabelPadding: 67
+        }
+        ],
+        legend: {
+            noColumns: 1,
+            labelBoxBorderColor: "#000000",
+            position: "nw"
+        },
+        grid: {
+            hoverable: false,
+            borderWidth: 0
+        }
+    };
 
-            var data2 = [
-                [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
-                [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
-                [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
-                [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
-                [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
-                [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
-                [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
-                [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
-            ];
+    function gd(year, month, day) {
+        return new Date(year, month - 1, day).getTime();
+    }
 
-            var data3 = [
-                [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
-                [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
-                [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
-                [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
-                [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
-                [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
-                [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
-                [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
-            ];
+    var previousPoint = null, previousLabel = null;
 
-            var doughnutOptions = {
-                legend: {
-                    display: true,
-                    position: "bottom"
-                },
-                title: {
-                    display: true,
-                    text: 'Shower Duration per User in last week'
-                },
-                cutoutPercentage: 35,
-                segmentShowStroke: true,
-                segmentStrokeColor: "#fff",
-                segmentStrokeWidth: 2,
-                percentageInnerCutout: 45, // This is 0 for Pie charts
-                animationSteps: 100,
-                animationEasing: "easeOutBounce",
-                animateRotate: true,
-                animateScale: false,
-                responsive: true,
-            };
+    // $.plot($("#flot-dashboard-chart"), dataset, options);
 
-            var make_pie_chart = function(data){
-              var ctx = $("#user-pie-chart");
-              data["datasets"][0]["backgroundColor"] = ["#42FFCB", "#78E3FD", "#48BEFF", "#3DFAFF", "#43C59E"]
-              data["datasets"][0]["hoverBackgroundColor"] = ["#42FFCB", "#78E3FD", "#48BEFF", "#3DFAFF", "#43C59E"]
-              var myPieChart = new Chart(ctx,{
-                  type: 'doughnut',
-                  data: data,
-                  options: doughnutOptions
-              });
+    var create_chart = function(data){
+
+      Highcharts.chart('flot-dashboard-chart', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'House Shower Usage'
+        },
+        // xAxis: {
+        //     categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+        // },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Duration of showers in minutes'
+            },
+            stackLabels: {
+                enabled: false,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
             }
-
-            var dataset = [
-                {
-                    label: "Number of orders",
-                    data: data3,
-                    color: "#1ab394",
-                    bars: {
-                        show: true,
-                        align: "center",
-                        barWidth: 24 * 60 * 60 * 600,
-                        lineWidth:0
-                    }
-
-                }, {
-                    label: "Payments",
-                    data: data2,
-                    yaxis: 2,
-                    color: "#1C84C6",
-                    lines: {
-                        lineWidth:1,
-                            show: true,
-                            fill: true,
-                        fillColor: {
-                            colors: [{
-                                opacity: 0.2
-                            }, {
-                                opacity: 0.4
-                            }]
-                        }
-                    },
-                    splines: {
-                        show: false,
-                        tension: 0.6,
-                        lineWidth: 1,
-                        fill: 0.1
-                    },
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
                 }
-            ];
-
-
-            var options = {
-                xaxis: {
-                    mode: "time",
-                    tickSize: [3, "day"],
-                    tickLength: 0,
-                    axisLabel: "Date",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Arial',
-                    axisLabelPadding: 10,
-                    color: "#d5d5d5"
-                },
-                yaxes: [{
-                    position: "left",
-                    max: 1070,
-                    color: "#d5d5d5",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Arial',
-                    axisLabelPadding: 3
-                }, {
-                    position: "right",
-                    clolor: "#d5d5d5",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: ' Arial',
-                    axisLabelPadding: 67
-                }
-                ],
-                legend: {
-                    noColumns: 1,
-                    labelBoxBorderColor: "#000000",
-                    position: "nw"
-                },
-                grid: {
-                    hoverable: false,
-                    borderWidth: 0
-                }
-            };
-
-            function gd(year, month, day) {
-                return new Date(year, month - 1, day).getTime();
             }
+        },
+        series: [{
+            name: 'John',
+            data: [5, 3, 4, 7, 2]
+        }, {
+            name: 'Jane',
+            data: [2, 2, 3, 2, 1]
+        }, {
+            name: 'Joe',
+            data: [3, 4, 4, 2, 5]
+        }]
+    });
+    }
 
-            var previousPoint = null, previousLabel = null;
-
-            // $.plot($("#flot-dashboard-chart"), dataset, options);
-
-            var create_chart(data){
-
-              Highcharts.chart('flot-dashboard-chart', {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Stacked column chart'
-                },
-                xAxis: {
-                    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Total fruit consumption'
-                    },
-                    stackLabels: {
-                        enabled: true,
-                        style: {
-                            fontWeight: 'bold',
-                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                        }
-                    }
-                },
-                legend: {
-                    align: 'right',
-                    x: -30,
-                    verticalAlign: 'top',
-                    y: 25,
-                    floating: true,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-                    borderColor: '#CCC',
-                    borderWidth: 1,
-                    shadow: false
-                },
-                tooltip: {
-                    headerFormat: '<b>{point.x}</b><br/>',
-                    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-                },
-                plotOptions: {
-                    column: {
-                        stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
-                    }
-                },
-                series: [{
-                    name: 'John',
-                    data: [5, 3, 4, 7, 2]
-                }, {
-                    name: 'Jane',
-                    data: [2, 2, 3, 2, 1]
-                }, {
-                    name: 'Joe',
-                    data: [3, 4, 4, 2, 5]
-                }]
-            });
-          }
-        });
-    </script>
+    create_chart({});
+});
+</script>
