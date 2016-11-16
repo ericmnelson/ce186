@@ -121,7 +121,7 @@
 
 
 <script>
-var theme_colors = ["#42FFCB", "#78E3FD", "#48BEFF", "#3DFAFF", "#43C59E"]
+var theme_colors = ["#42FFCB", "#78E3FD", "#23C59E", "#48BEFF", "#48FEFF", "#3DFAFF", "#48A59E",  "#0FCF9E"]
 
 Highcharts.theme = {
     colors: theme_colors,
@@ -361,7 +361,7 @@ $(document).ready(function() {
             column: {
                 stacking: 'normal',
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
                 }
             }
@@ -370,7 +370,7 @@ $(document).ready(function() {
       });
     }
 
-    $.getJSON("/api/get_shower_by_user.json?past_days=7", function(data){
+    $.getJSON("/api/showers_by_user.json?past_days=7", function(data){
       console.log(data);
       create_chart(data);
     })
