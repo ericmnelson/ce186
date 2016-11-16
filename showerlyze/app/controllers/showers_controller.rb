@@ -18,8 +18,15 @@ class ShowersController < ApplicationController
     end
   end
 
+
+  def by_user
+    render :json => current_user.house.showers_by_date_and_user(params[:past_days])
+  end
+
   def last_week
     h = House.find_by_id(params[:house_id])
+    h = current_user.house
+
     total_duration = 0
     num_showers = 0.0
     x_axis = []
