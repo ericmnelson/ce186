@@ -16,7 +16,7 @@ class House < ActiveRecord::Base
           time = 0
           user.showers.each do |shower|
             if shower.start_time.to_date === i.days.ago.to_date
-              time += (shower.end_time - shower.start_time) / 60
+              time += (shower.duration) / 60
             end
           end
           data << time
