@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   post '/bathroom/:bathroom_id/shower/create' => 'showers#create', as: :create_shower
   post '/shower/:shower_id/data_point/create' => 'data_points#create', as: :create_data_point
 
-
   get '/houses/:house_id/showers/last_week.json' => 'showers#last_week'
   get '/houses/:house_id/showers/pie_chart_data.json' => 'showers#pie_chart_data'
   get '/api/showers/by_user.json' => 'showers#by_user'

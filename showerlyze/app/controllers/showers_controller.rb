@@ -28,7 +28,7 @@ class ShowersController < ApplicationController
     render :json => shower.data
   end
 
-  def last_shwoer_data
+  def last_shower_data
     render :json => current_user.showers.last.data
   end
 
@@ -73,7 +73,7 @@ class ShowersController < ApplicationController
   end
 
   def pie_chart_data
-    h = House.find_by_id(params[:house_id])
+    h = current_house
     pie_data = {"labels" => [], "datasets" => [{"data" => []}]}
     h.bathrooms.each do |b|
       showers = b.showers.where(["start_time > ?", 1.week.ago])

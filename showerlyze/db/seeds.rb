@@ -78,47 +78,47 @@ def generate_rand_start_end(hour_diff, dur_weight)
   return rand_datetimes
 end
 
-# showers = {gige => generate_rand_start_end(0,0),
-#            val => generate_rand_start_end(3, 20),
-#            lauren => generate_rand_start_end(2, 10),
-#            anne => generate_rand_start_end(5, 15),
-#            paul => generate_rand_start_end(-2, 5),
-#          }
-#
-#
-# shower_instances = []
-# showers.each do |s_user, shower_hashes|
-#     shower_hashes.each do |shower|
-#         s = Shower.create!(shower)
-#         s.bathroom = bathroom_main
-#         s.user = s_user
-#         s.save
-#         shower_instances << s
-#     end
-# end
+showers = {gige => generate_rand_start_end(0,0),
+           val => generate_rand_start_end(3, 20),
+           lauren => generate_rand_start_end(2, 10),
+           anne => generate_rand_start_end(5, 15),
+           paul => generate_rand_start_end(-2, 5),
+         }
 
 
-showers = {gige => [{:start_time => "2016-11-16 03:00:00", :end_time => "2016-11-16 03:07:00"},
-                   {:start_time => "2016-11-14 03:00:00", :end_time => "2016-11-14 03:15:00"},
-                   {:start_time => "2016-11-13 03:00:00", :end_time => "2016-11-13 03:05:00"},
-                   {:start_time => "2016-11-12 03:00:00", :end_time => "2016-11-12 03:08:00"},
-                   {:start_time => "2016-11-11 03:00:00", :end_time => "2016-11-11 03:07:00"},
-                   {:start_time => "2016-11-10 03:00:00", :end_time => "2016-11-10 03:03:00"}],
-           paul => [{:start_time => "2016-11-16 03:00:00", :end_time => "2016-11-16 03:07:00"},
-                   {:start_time => "2016-11-15 03:00:00", :end_time => "2016-11-15 03:05:00"},
-                   {:start_time => "2016-11-14 03:00:00", :end_time => "2016-11-14 03:05:00"},
-                   {:start_time => "2016-11-13 03:00:00", :end_time => "2016-11-13 03:05:00"},
-                   {:start_time => "2016-11-12 03:00:00", :end_time => "2016-11-12 03:08:00"},
-                   {:start_time => "2016-11-11 03:00:00", :end_time => "2016-11-11 03:07:00"},
-                   {:start_time => "2016-11-10 03:00:00", :end_time => "2016-11-10 03:23:00"}],
-           val => [{:start_time => "2016-11-16 03:00:00", :end_time => "2016-11-16 03:37:00"},
-                  {:start_time => "2016-11-15 03:00:00", :end_time => "2016-11-15 03:35:00"},
-                  {:start_time => "2016-11-14 03:00:00", :end_time => "2016-11-14 03:35:00"},
-                  {:start_time => "2016-11-13 03:00:00", :end_time => "2016-11-13 03:25:00"},
-                  {:start_time => "2016-11-12 03:00:00", :end_time => "2016-11-12 03:28:00"},
-                  {:start_time => "2016-11-11 03:00:00", :end_time => "2016-11-11 03:17:00"},
-                  {:start_time => "2016-11-10 03:00:00", :end_time => "2016-11-10 03:43:00"}]
-}
+shower_instances = []
+showers.each do |s_user, shower_hashes|
+    shower_hashes.each do |shower|
+        s = Shower.create!(shower)
+        s.bathroom = bathroom_main
+        s.user = s_user
+        s.save
+        shower_instances << s
+    end
+end
+
+
+# showers = {gige => [{:start_time => "2016-11-16 03:00:00", :end_time => "2016-11-16 03:07:00"},
+#                    {:start_time => "2016-11-14 03:00:00", :end_time => "2016-11-14 03:15:00"},
+#                    {:start_time => "2016-11-13 03:00:00", :end_time => "2016-11-13 03:05:00"},
+#                    {:start_time => "2016-11-12 03:00:00", :end_time => "2016-11-12 03:08:00"},
+#                    {:start_time => "2016-11-11 03:00:00", :end_time => "2016-11-11 03:07:00"},
+#                    {:start_time => "2016-11-10 03:00:00", :end_time => "2016-11-10 03:03:00"}],
+#            paul => [{:start_time => "2016-11-16 03:00:00", :end_time => "2016-11-16 03:07:00"},
+#                    {:start_time => "2016-11-15 03:00:00", :end_time => "2016-11-15 03:05:00"},
+#                    {:start_time => "2016-11-14 03:00:00", :end_time => "2016-11-14 03:05:00"},
+#                    {:start_time => "2016-11-13 03:00:00", :end_time => "2016-11-13 03:05:00"},
+#                    {:start_time => "2016-11-12 03:00:00", :end_time => "2016-11-12 03:08:00"},
+#                    {:start_time => "2016-11-11 03:00:00", :end_time => "2016-11-11 03:07:00"},
+#                    {:start_time => "2016-11-10 03:00:00", :end_time => "2016-11-10 03:23:00"}],
+#            val => [{:start_time => "2016-11-16 03:00:00", :end_time => "2016-11-16 03:37:00"},
+#                   {:start_time => "2016-11-15 03:00:00", :end_time => "2016-11-15 03:35:00"},
+#                   {:start_time => "2016-11-14 03:00:00", :end_time => "2016-11-14 03:35:00"},
+#                   {:start_time => "2016-11-13 03:00:00", :end_time => "2016-11-13 03:25:00"},
+#                   {:start_time => "2016-11-12 03:00:00", :end_time => "2016-11-12 03:28:00"},
+#                   {:start_time => "2016-11-11 03:00:00", :end_time => "2016-11-11 03:17:00"},
+#                   {:start_time => "2016-11-10 03:00:00", :end_time => "2016-11-10 03:43:00"}]
+# }
 
 
 shower_instances = []
