@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   belongs_to :house
   has_many :showers
-  
+
   def all_activities
     activities = []
     self.expenses.each do |expense|
@@ -32,6 +32,18 @@ class User < ActiveRecord::Base
       puts "A", a
       puts "B", b
       b[:object].created_at <=> a[:object].created_at
+    end
+  end
+
+  def avg_duration_showers
+    avg = 0
+    self.showers.each do |s|
+      avg += s.duration / 60
+    end
+    if self.showers.length > 0
+      return avg/self.showers.length
+    else
+      return 0
     end
   end
 

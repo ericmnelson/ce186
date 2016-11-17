@@ -1,3 +1,5 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+
 <p id="notice">
   <%= notice %>
 </p>
@@ -17,6 +19,11 @@
                 <p><i class="fa fa-home"></i>
                   <%= @user.house.name if @user.house%>
                 </p>
+                <h5 class="m-b-md">House Rank:
+                  <span class="text-navy">
+                    <i class="fa fa-play fa-rotate-270 m-l-sm"></i> 1<sup>st</sup>
+                  </span>
+                </h5>
               </div>
             </div>
             <% if @user==current_user %>
@@ -37,34 +44,91 @@
         </div>
       </div>
     </div>
-    <div class="col-md-9">
-      <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5>Activites</h5>
-          <div class="ibox-tools">
-            <a class="collapse-link">
-              <i class="fa fa-chevron-up"></i>
-            </a>
-            <a class="close-link">
-              <i class="fa fa-times"></i>
-            </a>
+      <div class="col-md-9">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Activites</h5>
+            <div class="ibox-tools">
+              <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+              </a>
+              <a class="close-link">
+                <i class="fa fa-times"></i>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="ibox-content">
-          <div>
-            <div class="feed-activity-list">
+          <div class="ibox-content">
+            <div>
+              <div class="feed-activity-list">
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-3 col-lg-offset-3">
+          <div class="ibox">
+              <div class="ibox-content">
+                  <h5>Avg.</h5>
+                  <h2>198 009</h2>
+                  <div id="sparkline1"></div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="ibox">
+              <div class="ibox-content">
+                  <h5>Visits in last 24h</h5>
+                  <h2>198 009</h2>
+                  <div id="sparkline3"></div>
+              </div>
+          </div>
+      </div>
+    </div>
   </div>
-</div>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
 <script>
   $(document).ready(function() {
     $('input[type=file]').bootstrapFileInput();
+
+    var sparklineCharts = function(){
+       $("#sparkline1").sparkline([34, 43, 43, 35, 44, 32, 44, 52], {
+           type: 'line',
+           width: '100%',
+           height: '60',
+           lineColor: '#1ab394',
+           fillColor: "#ffffff"
+       });
+
+       $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
+           type: 'line',
+           width: '100%',
+           height: '60',
+           lineColor: '#1ab394',
+           fillColor: "#ffffff"
+       });
+
+       $("#sparkline3").sparkline([74, 43, 23, 55, 54, 32, 24, 12], {
+           type: 'line',
+           width: '100%',
+           height: '60',
+           lineColor: '#ed5565',
+           fillColor: "#ffffff"
+       });
+
+
+    };
+
+    var sparkResize;
+
+    $(window).resize(function(e) {
+        clearTimeout(sparkResize);
+        sparkResize = setTimeout(sparklineCharts, 500);
+    });
+
+    sparklineCharts();
 
   })
 </script>
