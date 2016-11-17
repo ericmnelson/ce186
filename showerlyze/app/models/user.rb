@@ -20,21 +20,6 @@ class User < ActiveRecord::Base
   belongs_to :house
   has_many :showers
 
-  def all_activities
-    activities = []
-    self.expenses.each do |expense|
-      activities += [{:type => "expense", :object => expense}]
-    end
-    self.charges.each do |charge|
-      activities += [{:type => "charge", :object => charge}]
-    end
-    activities.sort do |a, b|
-      puts "A", a
-      puts "B", b
-      b[:object].created_at <=> a[:object].created_at
-    end
-  end
-
   def avg_duration_showers
     avg = 0
     self.showers.each do |s|
@@ -45,6 +30,30 @@ class User < ActiveRecord::Base
     else
       return 0
     end
+  end
+
+  def shower_data num_days
+    temp_data = {:name => "Temperature Data",
+                 :type => "spline",
+                 :yAxis => 1,
+                 :data => [],
+                 :tooltip => {
+                     valueSuffix: ' °F'
+                 }
+               }
+    dur_data = {:name => "Daily Duration of showers",
+                :type => "column",
+                :data => [],
+                :tooltip => {
+                    valueSuffix: ' min'
+                }
+              }
+    recent_showers = showers.where(:start_time => num_days.days.ago..Time.now).order(:start_time)
+    recent_showers.each do |s|
+      temp_data[:data] << [s.start_time.to_i * 1000, s.avg_temp.round(2)]
+      dur_data[:data] << [s.start_time.to_i * 1000, s.duration / 60.0]
+    end
+    return [temp_data, dur_data]
   end
 
   def full_name

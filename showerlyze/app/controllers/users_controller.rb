@@ -31,6 +31,12 @@ class UsersController < ApplicationController
     puts params
   end
 
+  def shower_data
+    u = User.find(params[:id])
+    num_days = params[:num_days].to_i
+    render :json => u.shower_data(num_days)
+  end
+
   # POST /users
   # POST /users.json
   def create

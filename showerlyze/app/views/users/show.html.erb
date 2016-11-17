@@ -1,4 +1,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 
 <p id="notice">
   <%= notice %>
@@ -47,7 +48,7 @@
       <div class="col-md-9">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
-            <h5>Activites</h5>
+            <h5>Shower Data</h5>
             <div class="ibox-tools">
               <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>
@@ -59,7 +60,7 @@
           </div>
           <div class="ibox-content">
             <div>
-              <div class="feed-activity-list">
+              <div id="shower_data_chart" class="feed-activity-list">
               </div>
             </div>
           </div>
@@ -122,6 +123,97 @@
     };
 
     var sparkResize;
+    var theme_colors = ["#42FFCB", "#78E3FD", "#23C59E", "#48BEFF", "#48FEFF", "#3DFAFF", "#48A59E",  "#0FCF9E"]
+    Highcharts.theme = {
+        colors: theme_colors,
+        title: {
+            style: {
+                color: '#000',
+                font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
+            }
+        },
+        subtitle: {
+            style: {
+                color: '#666666',
+                font: 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+            }
+        },
+
+        legend: {
+            itemStyle: {
+                font: '9pt Trebuchet MS, Verdana, sans-serif',
+                color: 'black'
+            },
+            itemHoverStyle:{
+                color: 'gray'
+            }
+        }
+    };
+    Highcharts.setOptions(Highcharts.theme);
+    $.getJSON("/api/users/169/shower_data.json?num_days=7", function(data){
+      console.log(data);
+      Highcharts.chart('shower_data_chart', {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Shower Duration and Average Temperature by Day'
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+            },
+            title: {
+                text: 'Date'
+            }
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value} min',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            title: {
+                text: 'Shower Duration',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            }
+        }, { // Secondary yAxis
+            min: 80,
+            title: {
+                text: 'Temperature',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '{value}°C',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 120,
+            verticalAlign: 'top',
+            y: 100,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        series: data
+    });
+
+    })
 
     $(window).resize(function(e) {
         clearTimeout(sparkResize);

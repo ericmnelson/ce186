@@ -67,6 +67,7 @@ paul = User.find_by_first_name("Pauline")
 anne = User.find_by_first_name("Anne")
 lauren = User.find_by_first_name("Lauren")
 
+## SHOWERS ##
 def generate_rand_start_end(hour_diff, dur_weight)
   time_now = Time.zone.now - hour_diff.hours
   rand_datetimes = [{:start_time => time_now, :end_time => time_now + 10.minutes}]
@@ -129,4 +130,19 @@ showers.each do |s_user, shower_hashes|
         s.save
         shower_instances << s
     end
+end
+
+## DATA POINTS ##
+flow_rate = 50
+temp = 90
+gige.showers.each do |shower|
+  DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 75, :time => shower.start_time})
+  DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 76, :time => shower.start_time + 10})
+  DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 78, :time => shower.start_time + 20})
+  DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 82, :time => shower.start_time + 30})
+  DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 85, :time => shower.start_time + 40})
+  (5...(shower.duration)/10).each do |t|
+    data_point = {:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => temp + rand(-3..3), :time => shower.start_time + (t*10)}
+    DataPoint.create!(data_point)
+  end
 end
