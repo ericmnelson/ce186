@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117075007) do
+ActiveRecord::Schema.define(version: 20161121231222) do
 
   create_table "bathrooms", force: :cascade do |t|
     t.string   "name"
@@ -62,11 +62,12 @@ ActiveRecord::Schema.define(version: 20161117075007) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "bathroom_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.integer  "user_id"
     t.boolean  "shower_on"
     t.boolean  "temp_ready"
+    t.float    "overall_temp"
   end
 
   add_index "showers", ["bathroom_id"], name: "index_showers_on_bathroom_id"
