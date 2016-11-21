@@ -21,11 +21,12 @@
                 <p><i class="fa fa-home"></i>
                   <%= @user.house.name if @user.house%>
                 </p>
-                <h5 class="m-b-md">House Rank:
-                  <span class="text-navy">
-                    <i class="fa fa-play fa-rotate-270 m-l-sm"></i> 1<sup>st</sup>
-                  </span>
-                </h5>
+                <h4> Score:
+                  <%= @score %>
+                </h4>
+                <h4 class="m-b-md">House Rank:
+                  <%= @rank %>
+                </h4>
               </div>
             </div>
             <% if @user==current_user %>
@@ -158,7 +159,7 @@
     };
     Highcharts.setOptions(Highcharts.theme);
 
-    $.getJSON("/api" +window.location.pathname+ "/shower_data.json?num_days=7", function(data){
+    $.getJSON("/api" +window.location.pathname+ "/shower_data.json?num_days=10", function(data){
       Highcharts.chart('shower_data_chart', {
         chart: {
             zoomType: 'xy'
@@ -210,10 +211,10 @@
         },
         legend: {
             layout: 'vertical',
-            align: 'left',
-            x: 120,
+            align: 'right',
+            // x: -60,
             verticalAlign: 'top',
-            y: 100,
+            y: -10,
             floating: true,
             backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
         },

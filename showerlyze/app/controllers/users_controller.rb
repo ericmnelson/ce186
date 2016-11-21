@@ -14,6 +14,15 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user=User.find(params[:id])
+    @scores = User.scores.sort_by {|k,v| -v}
+    @score = 0
+    @rank = 0
+    @scores.each_with_index do |elem, i|
+      if elem[0] == @user.id
+        @score = elem[1]
+        @rank = i + 1
+      end
+    end
   end
 
   # GET /users/new
@@ -25,7 +34,21 @@ class UsersController < ApplicationController
   def dashboard
     @users = User.where(:house => current_house)
     puts User.scores
-    @scores = User.scores.sort_by {|k,v| -v}.to_h
+    @scores = User.scores.sort_by {|k,v| -v}
+
+    @last_week_scores = User.scores(1).sort_by {|k,v| -v}
+    @diff_scores = @scores.to_h.dup
+    @last_week_scores.to_h.each do |u_id, score|
+      @diff_scores[u_id] -= score
+    end
+
+    @rank_diff = {}
+    @last_week_scores.each_with_index do |elem, i|
+      @rank_diff[elem[0]] = i
+    end
+    @scores.each_with_index do |elem, i|
+      @rank_diff[elem[0]] -= i
+    end
   end
 
   # GET /users/1/edit

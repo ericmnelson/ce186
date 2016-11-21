@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
     return me / house * 100.0
   end
 
-  def self.scores
+  def self.scores(weeks_ago=0)
     data = {}
     alpha = 1.0
     beta = 0.23
@@ -52,13 +52,11 @@ class User < ActiveRecord::Base
     self.all.each do |u|
       wk_duration = 0
       wk_temp = 0
-      u.showers.each do |s|
+      u.showers.where(:start_time => (weeks_ago+1).weeks.ago..weeks_ago.weeks.ago).each do |s|
         wk_duration += s.duration
         wk_temp += s.avg_temp
       end
       score = alpha*wk_duration + beta*wk_temp
-      puts "SCORE"
-      puts score
       if score < min_score
         min_score = score
       end

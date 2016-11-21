@@ -1,5 +1,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
 
 <div class="row wrapper border-bottom white-bg page-heading2">
     <div class="col-lg-10">
@@ -44,16 +47,45 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Score</th>
-                        <th>Value</th>
+                        <th class="text-center">Score</th>
+                        <th class="text-center">Change</th>
+                        <th class="text-center">Rank</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <% @scores.each do |u_id, score| %>
+                    <% @scores.each_with_index do |elem, i| %>
                        <tr>
-                         <td><%= User.find_by_id(u_id).full_name %></td>
-                         <td><%= score %></td>
-                         <td class="text-navy"> <i class="fa fa-level-up"></i> 24% </td>
+                         <td><%= User.find_by_id(elem[0]).full_name %></td>
+                         <td class="text-center"><%= elem[1] %></td>
+                         <td class="text-center">
+                           <% if @diff_scores[elem[0]] >= 0 %>
+                             <span class="text-navy">
+                               <%="+" + @diff_scores[elem[0]].to_s %>
+                               <i class="fa fa-level-up"></i>
+                             </span>
+                           <% else  %>
+                             <span class="text-danger">
+                               <%=@diff_scores[elem[0]]%>
+                               <i class="fa fa-level-down"></i>
+                             </span>
+                           <% end %>
+
+                         </td>
+                         <td class="text-left" style="padding-left:20px;">
+                           <%= i + 1 %>
+                           <% if @rank_diff[elem[0]] > 0 %>
+                              <span class="text-navy">
+                               <i class="fa fa-play fa-rotate-270" style="font-size: 10px; padding-left:5px;"></i>
+                           <% elsif @rank_diff[elem[0]] < 0  %>
+                               <span class="text-danger">
+                                <i class="fa fa-play fa-rotate-90" style="font-size: 10px; padding-left:5px; "></i>
+                           <% else %>
+                                <span class="text-warning">
+
+                           <% end %>
+
+                             </span>
+                         </td>
                        </tr>
                     <% end %>
                     </tbody>
@@ -88,6 +120,7 @@
               </div>
           </div>
       </div>
+
   </div>
 
 
@@ -111,7 +144,21 @@
             </div>
         </div>
     </div>
-
+    <div class="col-lg-8">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Shower Duration by Day</h5>
+              <div class="pull-right">
+                  <div class="btn-group"><button type="button" class="btn btn-xs btn-white">Last Week</button></div>
+              </div>
+          </div>
+          <div class="ibox-content">
+              <div class="flot-chart" style="min-height:400px;">
+                  <div class="flot-chart-content" id="house-shower-by-day-chart"></div>
+              </div>
+           </div>
+        </div>
+    </div>
 
   </div>
 </div>
@@ -212,7 +259,7 @@ $(document).ready(function() {
     }
 
 
-    var create_chart = function(data){
+    var create_user_chart = function(data){
       Highcharts.chart('house-shower-by-user-chart', {
         chart: {
             type: 'column'
@@ -264,9 +311,56 @@ $(document).ready(function() {
       });
     }
 
+    var create_day_chart = function(data){
+      Highcharts.chart('house-shower-by-day-chart', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Average Shower Duration per day'
+        },
+        subtitle: {
+            text: 'Click the bars to drill down into a user-level view.'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Average duration of shower (min.)'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f} min'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f} min</b><br/>'
+        },
+
+        series: data["series"],
+        drilldown: data["drilldown"]
+      });
+    }
+
+
     $.getJSON("/api/showers/by_user.json?past_days=7", function(data){
-      console.log(data);
-      create_chart(data);
+      create_user_chart(data);
+    })
+
+    $.getJSON("/api/showers/by_day.json", function(data){
+      create_day_chart(data);
     })
 });
 </script>
