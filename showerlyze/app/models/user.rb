@@ -32,6 +32,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def avg_temp_showers
+    avg = 0
+    self.showers.each do |s|
+      avg += s.avg_temp
+    end
+    if self.showers.length > 0
+      return avg/self.showers.length
+    else
+      return 0
+    end
+  end
+
   def precent_total_consumption
     me = 0
     house = 0

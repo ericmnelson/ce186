@@ -2,6 +2,7 @@ class House < ActiveRecord::Base
     has_many :users
     has_many :landlords
     has_many :bathrooms
+    has_many :showers, through: :bathrooms
 
     def showers_by_date_and_user num_days
       categories = []
@@ -25,6 +26,30 @@ class House < ActiveRecord::Base
       end
 
       {:categories => categories.reverse, :series => series}
+    end
+
+    def avg_duration_showers
+      avg = 0
+      self.showers.each do |s|
+        avg += s.duration / 60
+      end
+      if self.showers.length > 0
+        return avg/self.showers.length
+      else
+        return 0
+      end
+    end
+
+    def avg_temp_showers
+      avg = 0
+      self.showers.each do |s|
+        avg += s.avg_temp
+      end
+      if self.showers.length > 0
+        return avg/self.showers.length
+      else
+        return 0
+      end
     end
 
     def showers_by_day_drilldown

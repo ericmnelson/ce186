@@ -16,8 +16,8 @@
           <div class="ibox-content profile-content">
             <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
-                <img alt="image" class="img-responsive img-circle" style="display:inline" src="<%= @user.avatar.url(:thumb) %>">
-                <h4><strong><%= @user.full_name %> </strong></h4>
+                <img alt="image" class="img-responsive img-circle m-b-sm" style="display:inline" src="<%= @user.avatar.url(:square) %>">
+                <h4 class="m-t-md"><strong><%= @user.full_name %> </strong></h4>
                 <p><i class="fa fa-home"></i>
                   <%= @user.house.name if @user.house%>
                 </p>
@@ -47,15 +47,25 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-4">
         <div class="ibox">
-            <div class="ibox-content">
-              <h4>Percentage of total house's water consumption</h4>
-              <svg class="m-t-sm" id="fillgauge1" width="100%" height="150"></svg>
-            </div>
+          <div class="ibox-title">
+              <h5>Percentage of House's Water Consumption</h5>
+              <div class="ibox-tools">
+                  <a class="collapse-link">
+                      <i class="fa fa-chevron-up"></i>
+                  </a>
+                  <a class="close-link">
+                      <i class="fa fa-times"></i>
+                  </a>
+              </div>
+          </div>
+          <div class="ibox-content">
+            <svg class="m-t-sm" id="fillgauge1" width="100%" height="150"></svg>
+          </div>
         </div>
     </div>
-    <div class="col-lg-3">
+    <!-- <div class="col-lg-3">
         <div class="ibox">
             <div class="ibox-content">
                 <h5>Avg.</h5>
@@ -63,15 +73,65 @@
                 <div id="sparkline1"></div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="ibox">
-            <div class="ibox-content">
-                <h5>Visits in last 24h</h5>
-                <h2>198 009</h2>
-                <div id="sparkline3"></div>
-            </div>
-        </div>
+    </div> -->
+    <div class="col-lg-5">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Comparison Corner</h5>
+              <div class="ibox-tools">
+                  <a class="collapse-link">
+                      <i class="fa fa-chevron-up"></i>
+                  </a>
+                  <a class="close-link">
+                      <i class="fa fa-times"></i>
+                  </a>
+              </div>
+          </div>
+          <div class="ibox-content">
+              <table class="table table-hover no-margins">
+                  <thead>
+                  <tr>
+                      <th></th>
+                      <th class="text-center">Personal Avg.</th>
+                      <th class="text-center">House Avg.</th>
+                      <th class="text-center">City Avg.</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Duration</strong></td>
+                      <td class="text-center">
+                        <%=@user.avg_duration_showers.round(1)%>
+                      </td>
+                      <td class="text-center">
+                        <%=current_house.avg_duration_showers.round(1)%>
+                      </td>
+                      <td class="text-center">
+                        10.89
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Temperature</strong></td>
+                      <td class="text-center">
+                        <%=@user.avg_temp_showers.round(1)%>
+                      </td>
+                      <td class="text-center">
+                        <%=current_house.avg_temp_showers.round(1)%>
+                      </td>
+                      <td class="text-center">
+                        90.89
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Showers/wk</strong></td>
+                      <td class="text-center">6.8</td>
+                      <td class="text-center">6.0</td>
+                      <td class="text-center">5.2</td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
     </div>
       <div class="col-md-9">
         <div class="ibox float-e-margins">
@@ -189,7 +249,69 @@
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
+            },
+            plotBands: [{ // Light air
+                from: 0,
+                to: 4,
+                color: 'rgba(39, 197, 158, 0.5)',
+                label: {
+                    text: 'Super Saver Shower',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Light breeze
+                from: 4,
+                to: 7,
+                color: 'rgba(65, 255, 203, .3)',
+                label: {
+                    text: 'Saver Shower',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Gentle breeze
+                from: 7,
+                to: 10,
+                color: 'rgba(74, 254, 255, 0.2)',
+                label: {
+                    text: 'Water Sipper',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Moderate breeze
+                from: 10,
+                to: 15,
+                color: 'rgba(244, 244, 66, .3)',
+                label: {
+                    text: 'Water Guzzler',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Fresh breeze
+                from: 15,
+                to: 25,
+                color: 'rgba(244, 167, 50, 0.3)',
+                label: {
+                    text: 'Ice Cap Melter',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Strong breeze
+                from: 25,
+                to: 100,
+                color: 'rgba(255, 0, 0, .3)',
+                label: {
+                    text: 'Climate Changer',
+                    style: {
+                        color: '#606060'
+                    }
+                }
             }
+            ]
         }, { // Secondary yAxis
             min: 80,
             title: {
