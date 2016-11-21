@@ -29,7 +29,7 @@ class ShowersController < ApplicationController
   end
 
   def last_shower_data
-    render :json => current_user.showers.last.data
+    render :json => current_user.showers.order(:created_at).last.data
   end
 
   def last_week

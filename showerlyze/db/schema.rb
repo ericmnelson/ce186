@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161110090142) do
+ActiveRecord::Schema.define(version: 20161117075007) do
 
   create_table "bathrooms", force: :cascade do |t|
     t.string   "name"
@@ -24,11 +24,11 @@ ActiveRecord::Schema.define(version: 20161110090142) do
 
   create_table "data_points", force: :cascade do |t|
     t.integer  "shower_id"
-    t.float    "flow_rate"
+    t.float    "water_amount"
     t.float    "temp"
     t.datetime "time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "data_points", ["shower_id"], name: "index_data_points_on_shower_id"
