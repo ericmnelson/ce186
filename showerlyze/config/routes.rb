@@ -33,5 +33,6 @@ Rails.application.routes.draw do
   get '/api/showers/by_user.json' => 'showers#by_user'
   get '/api/showers/:id/data.json' => 'showers#data'
   get '/api/showers/last_data.json' => 'showers#last_shower_data'
+  get '/api/showers/by_day.json' => 'showers#by_day'
 
 end
