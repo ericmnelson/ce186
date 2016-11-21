@@ -129,28 +129,30 @@ end
 # }
 
 
-shower_instances = []
-showers.each do |s_user, shower_hashes|
-    shower_hashes.each do |shower|
-        s = Shower.create!(shower)
-        s.bathroom = bathroom_main
-        s.user = s_user
-        s.save
-        shower_instances << s
-    end
-end
+# shower_instances = []
+# showers.each do |s_user, shower_hashes|
+#     shower_hashes.each do |shower|
+#         s = Shower.create!(shower)
+#         s.bathroom = bathroom_main
+#         s.user = s_user
+#         s.save
+#         shower_instances << s
+#     end
+# end
 
 ## DATA POINTS ##
 temp = 90
 User.all.each do |user|
   user.showers.each do |shower|
-    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 75, :time => shower.start_time})
-    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 76, :time => shower.start_time + 10})
-    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 78, :time => shower.start_time + 20})
-    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 82, :time => shower.start_time + 30})
-    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 85, :time => shower.start_time + 40})
+    DataPoint.create!({:shower => shower, :water_amount => 1, :temp => 75, :time => shower.start_time})
+    DataPoint.create!({:shower => shower, :water_amount => 2, :temp => 76, :time => shower.start_time + 10})
+    DataPoint.create!({:shower => shower, :water_amount => 3 + rand(-3..3), :temp => 78, :time => shower.start_time + 20})
+    DataPoint.create!({:shower => shower, :water_amount => 4 + rand(-3..3), :temp => 82, :time => shower.start_time + 30})
+    DataPoint.create!({:shower => shower, :water_amount => 5 + rand(-3..3), :temp => 85, :time => shower.start_time + 40})
+    water_amount = 5
     (5...(shower.duration)/10).each do |t|
-      data_point = {:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => temp + rand(-3..3), :time => shower.start_time + (t*10)}
+      water_amount += 1
+      data_point = {:shower => shower, :water_amount => water_amount, :temp => temp + rand(-3..3), :time => shower.start_time + (t*10)}
       DataPoint.create!(data_point)
     end
   end

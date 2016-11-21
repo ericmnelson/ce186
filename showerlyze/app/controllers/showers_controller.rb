@@ -23,6 +23,10 @@ class ShowersController < ApplicationController
     render :json => current_user.house.showers_by_date_and_user(params[:past_days].to_i)
   end
 
+  def by_day
+    render :json => current_user.house.showers_by_day_drilldown
+  end
+
   def data
     shower = Shower.find_by_id(params[:id])
     render :json => shower.data

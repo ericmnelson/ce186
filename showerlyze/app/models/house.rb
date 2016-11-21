@@ -27,219 +27,46 @@ class House < ActiveRecord::Base
       {:categories => categories.reverse, :series => series}
     end
 
-    def showers_by_day_drill_down
-      # series: [{
-      #       name: 'Brands',
-      #       colorByPoint: true,
-      #       data: [{
-      #           name: 'Microsoft Internet Explorer',
-      #           y: 56.33,
-      #           drilldown: 'Microsoft Internet Explorer'
-      #       }, {
-      #           name: 'Chrome',
-      #           y: 24.03,
-      #           drilldown: 'Chrome'
-      #       }, {
-      #           name: 'Firefox',
-      #           y: 10.38,
-      #           drilldown: 'Firefox'
-      #       }, {
-      #           name: 'Safari',
-      #           y: 4.77,
-      #           drilldown: 'Safari'
-      #       }, {
-      #           name: 'Opera',
-      #           y: 0.91,
-      #           drilldown: 'Opera'
-      #       }, {
-      #           name: 'Proprietary or Undetectable',
-      #           y: 0.2,
-      #           drilldown: null
-      #       }]
-      #   }],
-      #   drilldown: {
-      #       series: [{
-      #           name: 'Microsoft Internet Explorer',
-      #           id: 'Microsoft Internet Explorer',
-      #           data: [
-      #               [
-      #                   'v11.0',
-      #                   24.13
-      #               ],
-      #               [
-      #                   'v8.0',
-      #                   17.2
-      #               ],
-      #               [
-      #                   'v9.0',
-      #                   8.11
-      #               ],
-      #               [
-      #                   'v10.0',
-      #                   5.33
-      #               ],
-      #               [
-      #                   'v6.0',
-      #                   1.06
-      #               ],
-      #               [
-      #                   'v7.0',
-      #                   0.5
-      #               ]
-      #           ]
-      #       }, {
-      #           name: 'Chrome',
-      #           id: 'Chrome',
-      #           data: [
-      #               [
-      #                   'v40.0',
-      #                   5
-      #               ],
-      #               [
-      #                   'v41.0',
-      #                   4.32
-      #               ],
-      #               [
-      #                   'v42.0',
-      #                   3.68
-      #               ],
-      #               [
-      #                   'v39.0',
-      #                   2.96
-      #               ],
-      #               [
-      #                   'v36.0',
-      #                   2.53
-      #               ],
-      #               [
-      #                   'v43.0',
-      #                   1.45
-      #               ],
-      #               [
-      #                   'v31.0',
-      #                   1.24
-      #               ],
-      #               [
-      #                   'v35.0',
-      #                   0.85
-      #               ],
-      #               [
-      #                   'v38.0',
-      #                   0.6
-      #               ],
-      #               [
-      #                   'v32.0',
-      #                   0.55
-      #               ],
-      #               [
-      #                   'v37.0',
-      #                   0.38
-      #               ],
-      #               [
-      #                   'v33.0',
-      #                   0.19
-      #               ],
-      #               [
-      #                   'v34.0',
-      #                   0.14
-      #               ],
-      #               [
-      #                   'v30.0',
-      #                   0.14
-      #               ]
-      #           ]
-      #       }, {
-      #           name: 'Firefox',
-      #           id: 'Firefox',
-      #           data: [
-      #               [
-      #                   'v35',
-      #                   2.76
-      #               ],
-      #               [
-      #                   'v36',
-      #                   2.32
-      #               ],
-      #               [
-      #                   'v37',
-      #                   2.31
-      #               ],
-      #               [
-      #                   'v34',
-      #                   1.27
-      #               ],
-      #               [
-      #                   'v38',
-      #                   1.02
-      #               ],
-      #               [
-      #                   'v31',
-      #                   0.33
-      #               ],
-      #               [
-      #                   'v33',
-      #                   0.22
-      #               ],
-      #               [
-      #                   'v32',
-      #                   0.15
-      #               ]
-      #           ]
-      #       }, {
-      #           name: 'Safari',
-      #           id: 'Safari',
-      #           data: [
-      #               [
-      #                   'v8.0',
-      #                   2.56
-      #               ],
-      #               [
-      #                   'v7.1',
-      #                   0.77
-      #               ],
-      #               [
-      #                   'v5.1',
-      #                   0.42
-      #               ],
-      #               [
-      #                   'v5.0',
-      #                   0.3
-      #               ],
-      #               [
-      #                   'v6.1',
-      #                   0.29
-      #               ],
-      #               [
-      #                   'v7.0',
-      #                   0.26
-      #               ],
-      #               [
-      #                   'v6.2',
-      #                   0.17
-      #               ]
-      #           ]
-      #       }, {
-      #           name: 'Opera',
-      #           id: 'Opera',
-      #           data: [
-      #               [
-      #                   'v12.x',
-      #                   0.34
-      #               ],
-      #               [
-      #                   'v28',
-      #                   0.24
-      #               ],
-      #               [
-      #                   'v27',
-      #                   0.17
-      #               ],
-      #               [
-      #                   'v29',
-      #                   0.16
-      #               ]
-      #           ]
-      #       }]
-      #   }
+    def showers_by_day_drilldown
+      week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+      house_avgs, user_avgs = {}, {}
+      week.each do |day|
+        house_avgs[day] = {:num => 0, :total => 0}
+        user_avgs[day] = []
+      end
+
+      self.users.each do |user|
+        showers_by_day = user.showers.group_by { |shower|
+          shower.start_time.strftime("%A")
+        }
+        showers_by_day.each do |day, showers|
+          user_sum = 0
+          showers.each do |shower|
+            user_sum += shower.duration
+          end
+          house_avgs[day][:total] += user_sum
+          house_avgs[day][:num] += showers.length
+          user_avg = user_sum / showers.length
+          user_avg /= 60
+          user_avgs[day] << [user.first_name, user_avg.round(1)]
+        end
+      end
+
+      series_data, drilldown_series = [], []
+      {:series_data => series_data, :drilldown_series => drilldown_series, :house_avgs => house_avgs}
+
+      week.each do |day|
+        day_avg = house_avgs[day][:total]/house_avgs[day][:num]
+        day_avg /= 60
+        series_data << {:name => day, :y => day_avg.round(1), :drilldown => day}
+        drilldown_series << {:name => day, :id => day, :data => user_avgs[day]}
+      end
+
+      {:series =>
+          [{:name => "Average by Day", :colorByPoint => true, :data => series_data}],
+       :drilldown =>
+          {:series => drilldown_series}
+      }
     end
 end
