@@ -29,6 +29,41 @@
       <div class="col-lg-4">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
+                <h5>House Leaderboard</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-hover no-margins">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% @scores.each do |u_id, score| %>
+                       <tr>
+                         <td><%= User.find_by_id(u_id).full_name %></td>
+                         <td><%= score %></td>
+                         <td class="text-navy"> <i class="fa fa-level-up"></i> 24% </td>
+                       </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
                 <h5>Weekly Progress</h5>
             </div>
             <div class="ibox-content">
@@ -77,45 +112,7 @@
         </div>
     </div>
 
-    <div class="col-lg-8">
-        <div class="row">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>House Leaderboard</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    <table class="table table-hover no-margins">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Score</th>
-                            <th>Value</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% @users.each do |user| %>
-                           <tr>
-                             <td><%= user.full_name %></td>
-                             <td><i class="fa fa-clock-o"></i> 11:20pm</td>
-                             <td><%= rand(100) %></td>
-                             <td class="text-navy"> <i class="fa fa-level-up"></i> 24% </td>
-                           </tr>
-                        <% end %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+
   </div>
 </div>
 

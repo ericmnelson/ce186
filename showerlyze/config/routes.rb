@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get '/houses/:house_id/showers/last_week.json' => 'showers#last_week'
   get '/houses/:house_id/showers/pie_chart_data.json' => 'showers#pie_chart_data'
 
+  get '/api/users/:id/percent_consumption.json' => 'users#percent_consumption'
   get '/api/users/:id/shower_data.json' => 'users#shower_data'
   get '/api/showers/by_user.json' => 'showers#by_user'
   get '/api/showers/:id/data.json' => 'showers#data'

@@ -32,6 +32,44 @@ class User < ActiveRecord::Base
     end
   end
 
+  def precent_total_consumption
+    me = 0
+    house = 0
+    Shower.all.each do |s|
+      if s.user == self
+        me += s.duration
+      end
+      house += s.duration
+    end
+    return me / house * 100.0
+  end
+
+  def self.scores
+    data = {}
+    alpha = 1.0
+    beta = 0.23
+    min_score = 1000000
+    self.all.each do |u|
+      wk_duration = 0
+      wk_temp = 0
+      u.showers.each do |s|
+        wk_duration += s.duration
+        wk_temp += s.avg_temp
+      end
+      score = alpha*wk_duration + beta*wk_temp
+      puts "SCORE"
+      puts score
+      if score < min_score
+        min_score = score
+      end
+      data[u.id] = score
+    end
+    data.each do |id, score|
+      data[id] = (100 * min_score/score).round()
+    end
+    return data
+  end
+
   def shower_data num_days
     temp_data = {:name => "Temperature Data",
                  :type => "spline",
