@@ -8,6 +8,14 @@ class Shower < ActiveRecord::Base
     end_time - start_time
   end
 
+  def avg_temp
+    total = 0
+    data_points.each do |dp|
+      total += dp.temp
+    end
+    return total/data_points.length
+  end
+
   def data
     temp = []
     flow = []

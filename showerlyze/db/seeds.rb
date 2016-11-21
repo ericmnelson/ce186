@@ -41,15 +41,17 @@ users = {gdi => [{:first_name => 'Giorgia', :last_name => 'Willits',
                   {:first_name => 'Lauren', :last_name => 'Capelluto',
                    :phone_number => '+15555555555', :email => 'lc@berkeley.edu',
                    :password => 'lc'},
-                  {:first_name => 'Eric', :last_name => 'Nelson',
-                   :phone_number => '+11111111111', :email => 'en@berkeley.edu',
-                   :password => 'en'},
-                  {:first_name => 'Jake', :last_name => 'Silhavy',
-                   :phone_number => '+12222222222', :email => 'js@berkeley.edu',
-                   :password => 'js'},
-                  {:first_name => 'Carol', :last_name => 'Zhang',
-                   :phone_number => '+13333333333', :email => 'cz@berkeley.edu',
-                   :password => 'cz'}]}
+                  # {:first_name => 'Eric', :last_name => 'Nelson',
+                  #  :phone_number => '+11111111111', :email => 'en@berkeley.edu',
+                  #  :password => 'en'},
+                  # {:first_name => 'Jake', :last_name => 'Silhavy',
+                  #  :phone_number => '+12222222222', :email => 'js@berkeley.edu',
+                  #  :password => 'js'},
+                  # {:first_name => 'Carol', :last_name => 'Zhang',
+                  #  :phone_number => '+13333333333', :email => 'cz@berkeley.edu',
+                  #  :password => 'cz'}
+                 ]
+                 }
 
 user_instances = []
 users.each do |house, user_hashes|
@@ -66,6 +68,9 @@ val = User.find_by_first_name("Valeriya")
 paul = User.find_by_first_name("Pauline")
 anne = User.find_by_first_name("Anne")
 lauren = User.find_by_first_name("Lauren")
+# jake = User.find_by_first_name("Jake")
+# eric = User.find_by_first_name("Eric")
+# carol = User.find_by_first_name("Carol")
 
 ## SHOWERS ##
 def generate_rand_start_end(hour_diff, dur_weight)
@@ -83,6 +88,9 @@ showers = {gige => generate_rand_start_end(0,0),
            lauren => generate_rand_start_end(2, 10),
            anne => generate_rand_start_end(5, 15),
            paul => generate_rand_start_end(-2, 5),
+          #  jake => generate_rand_start_end(-9, 7),
+          #  eric => generate_rand_start_end(-1, 1),
+          #  carol => generate_rand_start_end(-3, 9),
          }
 
 
@@ -134,16 +142,16 @@ end
 
 ## DATA POINTS ##
 temp = 90
-gige.showers.each do |shower|
-  DataPoint.create!({:shower => shower, :water_amount => 1, :temp => 75, :time => shower.start_time})
-  DataPoint.create!({:shower => shower, :water_amount => 2, :temp => 76, :time => shower.start_time + 10})
-  DataPoint.create!({:shower => shower, :water_amount => 3 + rand(-3..3), :temp => 78, :time => shower.start_time + 20})
-  DataPoint.create!({:shower => shower, :water_amount => 4 + rand(-3..3), :temp => 82, :time => shower.start_time + 30})
-  DataPoint.create!({:shower => shower, :water_amount => 5 + rand(-3..3), :temp => 85, :time => shower.start_time + 40})
-  water_amount = 5
-  (5...(shower.duration)/10).each do |t|
-    water_amount += 1
-    data_point = {:shower => shower, :water_amount => water_amount, :temp => temp + rand(-3..3), :time => shower.start_time + (t*10)}
-    DataPoint.create!(data_point)
+User.all.each do |user|
+  user.showers.each do |shower|
+    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 75, :time => shower.start_time})
+    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 76, :time => shower.start_time + 10})
+    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 78, :time => shower.start_time + 20})
+    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 82, :time => shower.start_time + 30})
+    DataPoint.create!({:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => 85, :time => shower.start_time + 40})
+    (5...(shower.duration)/10).each do |t|
+      data_point = {:shower => shower, :flow_rate => flow_rate + rand(-3..3), :temp => temp + rand(-3..3), :time => shower.start_time + (t*10)}
+      DataPoint.create!(data_point)
+    end
   end
 end

@@ -24,11 +24,27 @@ class UsersController < ApplicationController
   # GET /dashboard
   def dashboard
     @users = User.where(:house => current_house)
+    puts User.scores
+    @scores = User.scores.sort_by {|k,v| -v}.to_h
   end
 
   # GET /users/1/edit
   def edit
     puts params
+  end
+
+  def shower_data
+    u = User.find(params[:id])
+    num_days = params[:num_days].to_i
+    render :json => u.shower_data(num_days)
+  end
+
+  def percent_consumption
+    u = User.find(params[:id])
+    percent = u.precent_total_consumption
+    puts "^" *76
+    puts percent
+    render :json => percent.round(1)
   end
 
   # POST /users

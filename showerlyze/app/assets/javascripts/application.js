@@ -24,6 +24,7 @@
 //= require flot/jquery.flot.symbol.js
 //= require flot/jquery.flot.time.js
 //= require parsley
+//= require liquid_filld3.js
 //= require bs-file-input.js
 //= require_tree .
 //= require underscore

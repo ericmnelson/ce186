@@ -36,8 +36,6 @@ class ShowersController < ApplicationController
     h = House.find_by_id(params[:house_id])
     h = current_user.house
 
-    puts Shower.find_by_id(219).data
-
     total_duration = 0
     num_showers = 0.0
     x_axis = []
