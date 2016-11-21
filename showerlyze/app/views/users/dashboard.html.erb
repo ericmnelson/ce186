@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <div class="flot-chart" style="min-height:400px;">
+                <div class="flot-chart" style="min-height:435px;">
                     <div class="flot-chart-content" id="house-shower-by-user-chart"></div>
                 </div>
              </div>
@@ -268,20 +268,83 @@ $(document).ready(function() {
             text: 'House Shower Usage'
         },
         xAxis: {
-            categories: data['categories']
+            categories: data['categories'].unshift("Label")
         },
         yAxis: {
             min: 0,
             title: {
                 text: 'Duration of showers in minutes'
             },
-            stackLabels: {
-                enabled: false,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            plotBands: [
+              { // Light air
+                from: 0,
+                to: 4,
+                color: 'rgba(39, 197, 158, 0.2)',
+                label: {
+                    text: 'Super Saver Shower',
+                    style: {
+                        color: '#606060'
+                    },
+                }
+            }, { // Light breeze
+                from: 4,
+                to: 7,
+                color: 'rgba(65, 255, 203, .1)',
+                label: {
+                    text: 'Saver Shower',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Gentle breeze
+                from: 7,
+                to: 10,
+                color: 'rgba(74, 254, 255, 0.1)',
+                label: {
+                    text: 'Water Sipper',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Moderate breeze
+                from: 10,
+                to: 15,
+                color: 'rgba(244, 244, 66, .1)',
+                label: {
+                    text: 'Water Guzzler',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Fresh breeze
+                from: 15,
+                to: 25,
+                color: 'rgba(244, 167, 50, 0.1)',
+                label: {
+                    text: 'Ice Cap Melter',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Strong breeze
+                from: 25,
+                to: 100,
+                color: 'rgba(255, 0, 0, .1)',
+                label: {
+                    text: 'Climate Changer',
+                    style: {
+                        color: '#606060'
+                    }
                 }
             }
+            ]
+            // stackLabels: {
+            //     enabled: false,
+            //     style: {
+            //         fontWeight: 'bold',
+            //         color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            //     }
+            // }
         },
         legend: {
             align: 'right',
@@ -300,7 +363,7 @@ $(document).ready(function() {
         },
         plotOptions: {
             column: {
-                stacking: 'normal',
+                // stacking: 'normal',
                 dataLabels: {
                     enabled: false,
                     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
