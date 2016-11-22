@@ -14,6 +14,7 @@ class ShowersController < ApplicationController
                           :shower_on => true,
                           :start_time => Time.now,
                           :temp_ready => false)
+      bathroom.current_shower = shower
       shower.save
       # send shower id to raspberry
       render :json => {:shower_id => shower.id, :user_name => user.first_name}
