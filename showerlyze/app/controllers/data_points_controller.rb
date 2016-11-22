@@ -25,15 +25,7 @@ class DataPointsController < ApplicationController
         :to => phone_number,
         :body => "Your shower is ready. Reply #{shower.id} to start.")
     end
-    end_shower = false
-    if shower.data_points.last
-      old_amnt = shower.data_points.order(:created_at).last.water_amount
-      puts old_amnt
-    end
-    if shower.data_points.last and old_amnt.to_s == water_amount.to_s and shower.shower_on
-      end_shower = true
-      shower.end_time = Time.now
-    end
-    render :json => {:block_water => !shower.shower_on, :end_shower => end_shower}
+
+    render :json => {:block_water => !shower.shower_on, :end_shower => shower.end_shower? water_amount}
   end
 end

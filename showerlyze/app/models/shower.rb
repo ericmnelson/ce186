@@ -25,4 +25,27 @@ class Shower < ActiveRecord::Base
     end
     {:temp => temp, :flow => flow, :start_time => start_time, :end_time => end_time}
   end
+
+  def end_shower? water_amount
+    last_dp = self.data_points.order(:created_at).last
+
+    if last_dp and last_dp.water_amount.to_s == water_amount.to_s and self.shower_on
+      self.end_time = Time.now
+      self.overall_temp = self.get_overall_temp
+      self.user.update_preferred_temperature self.overall_temp
+      true
+    else
+      false
+    end
+  end
+
+  def get_overall_temp
+    sum, total = 0, 0
+    self.data_points.order(:created_at).each do |dp|
+      sum += dp.temp
+      total++
+    end
+    sum / total
+  end
+
 end

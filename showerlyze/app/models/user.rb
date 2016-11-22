@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   belongs_to :house
   has_many :showers
 
+  ALPHA = 0.3
+
   def avg_duration_showers
     avg = 0
     self.showers.each do |s|
@@ -110,6 +112,14 @@ class User < ActiveRecord::Base
 
   def first_name_initial
     self.first_name.capitalize + " " + self.last_name.capitalize[0] + "."
+  end
+
+  def update_preferred_temperature temp
+    if not self.preferred_temp
+      self.preferred_temp = temp
+    else
+      self.preferred_temp = ALPHA * temp + (1 - ALPHA) * self.preferred_temp
+    end
   end
 
 end
