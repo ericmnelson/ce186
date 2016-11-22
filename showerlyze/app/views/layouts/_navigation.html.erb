@@ -20,14 +20,20 @@
                   <% end %>
                 </div>
             </li>
-            <li class="<%= 'active' if current_page?('/') %>">
+            <li class="<%= 'active' if current_page?(:controller => 'users', :action => 'dashboard') %>">
                 <%= link_to "/" do %>
                 <i class="fa fa-home"></i> <span class="nav-label">Dashboard</span>
                 <% end %>
             </li>
-            <li class="<%= 'active' if !current_page?('/') %>">
+            <li class="<%= 'active' if request.fullpath.match(/^\/users\/\d+/) %>">
                 <%= link_to "/users/"+current_user.id.to_s do %>
                   <i class="fa fa-user"></i> <span class="nav-label">Profie</span>
+                <% end %>
+            </li>
+            <li class="<%= 'active' if request.fullpath.match(/^\/bathrooms\/\d+/)  %>">
+              <%=  %>
+                <%= link_to "/bathrooms/"+current_house.bathrooms.first.id.to_s do %>
+                  <i class="fa fa-tint"></i> <span class="nav-label">Bathroom</span>
                 <% end %>
             </li>
 
