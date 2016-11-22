@@ -9,7 +9,11 @@ class ShowersController < ApplicationController
     user = bathroom.house.users.find_by_passcode(params[:passcode].downcase)
     if user
       # create a new shower
-      shower = Shower.new(:bathroom => bathroom, :user => user, :shower_on => true, :temp_ready => false)
+      shower = Shower.new(:bathroom => bathroom,
+                          :user => user,
+                          :shower_on => true,
+                          :start_time => Time.now,
+                          :temp_ready => false)
       shower.save
       # send shower id to raspberry
       render :json => {:shower_id => shower.id, :user_name => user.first_name}
