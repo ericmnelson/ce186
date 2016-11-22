@@ -33,19 +33,19 @@ class Shower < ActiveRecord::Base
       self.end_time = Time.now
       self.overall_temp = self.get_overall_temp
       self.user.update_preferred_temperature self.overall_temp
-      true
+      self.bathroom.current_shower = nil
+      return true
     else
-      false
+      return false
     end
   end
 
   def get_overall_temp
-    sum, total = 0, 0
+    sum = 0
     self.data_points.order(:created_at).each do |dp|
       sum += dp.temp
-      total++
     end
-    sum / total
+    sum / self.data_points.length
   end
 
 end
