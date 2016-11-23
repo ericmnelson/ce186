@@ -28,19 +28,29 @@ bathroom_main.save
 ## USERS ##
 users = {gdi => [{:first_name => 'Giorgia', :last_name => 'Willits',
                    :phone_number => '7148759292', :email => 'gw@berkeley.edu',
-                   :password => 'gw', :passcode => 'apple', :preferred_temp => 90},
+                   :password => 'gw', :passcode => 'apple', :preferred_temp => 90,
+                   :avatar => File.new("#{Rails.root}/app/assets/images/gige.jpg")
+                 },
                   {:first_name => 'Valeriya', :last_name => 'Imeshiva',
                    :phone_number => '+14444444444', :email => 'vi@berkeley.edu',
-                   :password => 'vi'},
+                   :password => 'vi', :passcode => 'banana', :preferred_temp => 91,
+                   :avatar => File.new("#{Rails.root}/app/assets/images/val.jpg")
+                 },
                   {:first_name => 'Anne', :last_name => 'Zeng',
                    :phone_number => '7147884536', :email => 'az@berkeley.edu',
-                   :password => 'az', :passcode => 'banana'},
+                   :password => 'az', :passcode => 'lake', :preferred_temp => 89,
+                   :avatar => File.new("#{Rails.root}/app/assets/images/anne.jpg")
+                 },
                   {:first_name => 'Pauline', :last_name => 'Duprat',
                    :phone_number => '+14444444444', :email => 'pd@berkeley.edu',
-                   :password => 'pd'},
+                   :password => 'pd', :passcode => 'bark', :preferred_temp => 85,
+                   :avatar => File.new("#{Rails.root}/app/assets/images/paul.jpg")
+                 },
                   {:first_name => 'Lauren', :last_name => 'Capelluto',
                    :phone_number => '+15555555555', :email => 'lc@berkeley.edu',
-                   :password => 'lc'},
+                   :password => 'lc', :passcode => 'shut', :preferred_temp => 90,
+                   :avatar => File.new("#{Rails.root}/app/assets/images/lauren.jpg")
+                 },
                   # {:first_name => 'Eric', :last_name => 'Nelson',
                   #  :phone_number => '+11111111111', :email => 'en@berkeley.edu',
                   #  :password => 'en'},
