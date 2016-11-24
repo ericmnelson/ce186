@@ -1,6 +1,6 @@
 class Shower < ActiveRecord::Base
   belongs_to :bathroom, dependent: :destroy
-  belongs_to :user, dependent: :nullify
+  belongs_to :user, dependent: :destroy
   has_many :data_points, dependent: :destroy
   has_one :house, through: :bathroom
 

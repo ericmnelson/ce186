@@ -1,5 +1,5 @@
 class Bathroom < ActiveRecord::Base
-  belongs_to :house
+  belongs_to :house, dependent: :destroy
   has_many :showers do
     def current
       where(:end_time => nil).first
