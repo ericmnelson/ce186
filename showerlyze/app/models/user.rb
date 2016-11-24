@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  belongs_to :house
-  has_many :showers
+  belongs_to :house, dependent: :destroy
+  has_many :showers, dependent: :nullify
 
   ALPHA = 0.3
 
