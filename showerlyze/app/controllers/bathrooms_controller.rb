@@ -27,6 +27,10 @@ class BathroomsController < ApplicationController
       end
     end
     @num_users = 5
+    @available = @bathroom.current_shower.nil?
+    if not @available
+      @shower_user = @bathroom.current_shower.user
+    end
     @total_showers = @bathroom.showers.length
   end
 end
