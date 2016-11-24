@@ -12,7 +12,6 @@ class ShowersController < ApplicationController
       shower = Shower.new(:bathroom => bathroom,
                           :user => user,
                           :shower_on => true,
-                          :start_time => Time.now,
                           :temp_ready => false)
       bathroom.current_shower = shower
       shower.save
