@@ -6,12 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+DataPoint.destroy_all
+Shower.destroy_all
+Bathroom.destroy_all
 User.destroy_all
 Delayed::Job.destroy_all
 House.destroy_all
-Shower.destroy_all
-Bathroom.destroy_all
-DataPoint.destroy_all
 
 ## HOUSES  ##
 houses = [{:name => "ATO"},

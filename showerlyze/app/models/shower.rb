@@ -1,7 +1,7 @@
 class Shower < ActiveRecord::Base
-  belongs_to :bathroom, dependent: :destroy
-  belongs_to :user, dependent: :destroy
-  has_many :data_points, dependent: :destroy
+  belongs_to :bathroom
+  belongs_to :user
+  has_many :data_points
   has_one :house, through: :bathroom
 
   def duration
