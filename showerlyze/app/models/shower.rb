@@ -5,10 +5,17 @@ class Shower < ActiveRecord::Base
   has_one :house, through: :bathroom
 
   def duration
-    end_time - start_time
+    if end_time
+      return end_time - start_time
+    else
+      return Time.now - start_time
+    end
   end
 
   def avg_temp
+    if data_points.length == 0
+      return 0
+    end
     total = 0
     data_points.each do |dp|
       total += dp.temp

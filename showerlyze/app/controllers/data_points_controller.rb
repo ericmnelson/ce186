@@ -14,7 +14,7 @@ class DataPointsController < ApplicationController
     pref_temp = shower.user.preferred_temp
     phone_number = shower.user.phone_number
     temp_ready = shower.temp_ready
-    if temp.to_f >= pref_temp and not shower.temp_ready
+    if (temp.to_f >= pref_temp and not shower.temp_ready)
       shower.temp_ready = true
       shower.shower_on = false
       shower.save
@@ -26,6 +26,8 @@ class DataPointsController < ApplicationController
         :body => "Your shower is ready. Reply #{shower.id} to start.")
     end
 
-    render :json => {:block_water => !shower.shower_on, :end_shower => shower.end_shower? water_amount}
+    render :json => {:block_water => !shower.shower_on,
+                     :end_shower => shower.end_shower?(water_amount)
+                   }
   end
 end

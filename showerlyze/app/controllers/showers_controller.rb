@@ -71,7 +71,7 @@ class ShowersController < ApplicationController
     total_duration_change = ((total_duration / duration_week_before)-1) * 100.0
     num_showers_change = ((num_showers / num_week_before)-1) * 100.0
     render :json => {
-                      "total_duration" => total_duration,
+                      "total_duration" => total_duration.round(1),
                       "total_duration_change" => total_duration_change.round,
                       "num_showers" => num_showers,
                       "num_showers_change" => num_showers_change.round,
