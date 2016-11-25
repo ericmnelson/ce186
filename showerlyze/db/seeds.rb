@@ -170,7 +170,7 @@ User.all.each do |user|
   end
 end
 
-cur_shower = Shower.create!({:start_time => 1.minute.ago})
-cur_shower.bathroom=bathroom_main
-cur_shower.user=gige
-cur_shower.save
+# cur_shower = Shower.create!({:start_time => 1.minute.ago})
+# cur_shower.bathroom=bathroom_main
+# cur_shower.user=gige
+# cur_shower.save
