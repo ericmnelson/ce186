@@ -5,4 +5,5 @@ class Bathroom < ActiveRecord::Base
       where(:end_time => nil).first
     end
   end
+  has_many :users, through: :house
 end
