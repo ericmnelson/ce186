@@ -6,7 +6,7 @@ class ShowersController < ApplicationController
     # use bathroom & passcode to get user
     bathroom = Bathroom.find_by_id(params[:bathroom_id])
 
-    user = bathroom.house.users.find_by_passcode(params[:passcode].downcase)
+    user = bathroom.users.find_by_passcode(params[:passcode].downcase)
     if user
       # create a new shower
       shower = Shower.new(:bathroom => bathroom,

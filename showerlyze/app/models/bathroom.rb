@@ -9,4 +9,5 @@ class Bathroom < ActiveRecord::Base
       where("end_time < ?", Time.now).order(:end_time).last
     end
   end
+  has_many :users, through: :house
 end

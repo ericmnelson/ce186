@@ -4,6 +4,28 @@ class House < ActiveRecord::Base
     has_many :bathrooms
     has_many :showers, through: :bathrooms
 
+    def self.rank
+      rank = 1
+      usage = self.total_water_usage
+      House.all.each do |house|
+        if house.total_water_usage < usage
+          rank += 1
+        end
+      end
+      rank
+    end
+
+    def total_water_usage
+      total = 0
+      self.showers.where("created_at >= ?", 1.week.ago).each do |shower|
+        dp = shower.data_points.order(water_amount: :desc).first
+        if dp
+          total += dp.water_amount
+        end
+      end
+      total
+    end
+
     def showers_by_date_and_user num_days
       categories = []
       (0...num_days).each do |i|
