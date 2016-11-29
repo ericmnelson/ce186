@@ -46,6 +46,7 @@ class ShowersController < ApplicationController
 
     total_duration = 0
     num_showers = 0.0
+    avg_duration = 0
     x_axis = []
     h.bathrooms.each do |b|
       showers = b.showers.where(["start_time > ?", 1.week.ago])
@@ -57,24 +58,31 @@ class ShowersController < ApplicationController
       shower_data.each do |day, data|
         x_axis << day
       end
+      avg_duration = total_duration / showers.length
     end
     duration_week_before = 0
     num_week_before = 0.0
+    avg_duration_before = 0
     h.bathrooms.each do |b|
       showers = b.showers.where(:start_time => 2.weeks.ago..1.week.ago)
       num_week_before += showers.length
       showers.each do |s|
         duration_week_before += s.duration / 60.0
       end
+      avg_duration_before = duration_week_before / showers.length
     end
 
     total_duration_change = ((total_duration / duration_week_before)-1) * 100.0
     num_showers_change = ((num_showers / num_week_before)-1) * 100.0
+    avg_duration_change = ((avg_duration / avg_duration_before)-1) * 100.0
+
     render :json => {
                       "total_duration" => total_duration.round(1),
                       "total_duration_change" => total_duration_change.round,
                       "num_showers" => num_showers,
                       "num_showers_change" => num_showers_change.round,
+                      "avg_duration" => avg_duration.round(1),
+                      "avg_duration_change" => avg_duration_change.round,
                     }
   end
 

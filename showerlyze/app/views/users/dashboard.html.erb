@@ -22,8 +22,8 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <div class="flot-chart" style="min-height:435px;">
-                    <div class="flot-chart-content" id="house-shower-by-user-chart"></div>
+                <div class="flot-chart" style="min-height:535px;">
+                    <div style="margin-top:30px;" class="flot-chart-content" id="house-shower-by-user-chart"></div>
                 </div>
              </div>
           </div>
@@ -113,6 +113,14 @@
                       <div id="total_duration_change" class="stat-percent"> </div>
                       <div class="progress progress-mini">
                           <div id="total_duration_change_bar" style="width: 48%;" class="progress-bar"></div>
+                      </div>
+                  </li>
+                  <li>
+                      <h2 id="avg_duration"class="no-margins "></h2>
+                      <small>Average duration of Shower in period</small>
+                      <div id="avg_duration_change" class="stat-percent"> </div>
+                      <div class="progress progress-mini">
+                          <div id="avg_duration_change_bar" style="width: 48%;" class="progress-bar"></div>
                       </div>
                   </li>
                 </ul>
@@ -219,10 +227,15 @@ $(document).ready(function() {
       num_showers_change = format_change(data['num_showers_change'])
       $("#num_showers_change_bar").css("width", data['num_showers_change']+"%")
 
+      avg_duration_change = format_change(data['avg_duration_change'])
+      $("#avg_duration_change_bar").css("width", data['avg_duration_change']+"%")
+
       $("#total_duration").text(data['total_duration'] + " minutes");
       $("#total_duration_change").html(total_duration_change);
       $("#num_showers").text(data['num_showers']);
       $("#num_showers_change").html(num_showers_change);
+      $("#avg_duration").text(data['avg_duration'] + " minutes");
+      $("#avg_duration_change").html(avg_duration_change);
     })
 
     var doughnutOptions = {
@@ -274,10 +287,25 @@ $(document).ready(function() {
             title: {
                 text: 'Duration of showers in minutes'
             },
+            plotLines: [{
+              color: 'red', // Color value
+              // dashStyle: 'longdashdot', // Style of the plot line. Default to solid
+              value: 8.50, // Value of where the line will appear
+              width: 2, // Width of the line
+              label: {
+                text: 'National Avg.', // Content of the label.
+                align: 'right', // Positioning of the label.
+                textalign: 'right', // Positioning of the label.
+                // y: 300, // Positioning of the label.
+                rotation: 0, // Positioning of the label.
+              },
+              zIndex: 1110, // Positioning of the label.
+            }],
             plotBands: [
               { // Light air
+                zIndex: 111110, // Positioning of the label.
                 from: 0,
-                to: 4,
+                to: 5,
                 color: 'rgba(39, 197, 158, 0.2)',
                 label: {
                     text: 'Super Saver Shower',
@@ -286,8 +314,9 @@ $(document).ready(function() {
                     },
                 }
             }, { // Light breeze
-                from: 4,
-                to: 7,
+              zIndex: 111110, // Positioning of the label.
+                from: 5,
+                to: 8.5,
                 color: 'rgba(65, 255, 203, .1)',
                 label: {
                     text: 'Saver Shower',
@@ -296,8 +325,9 @@ $(document).ready(function() {
                     }
                 }
             }, { // Gentle breeze
-                from: 7,
-                to: 10,
+              zIndex: 111110, // Positioning of the label.
+                from: 8.5,
+                to: 11,
                 color: 'rgba(74, 254, 255, 0.1)',
                 label: {
                     text: 'Water Sipper',
@@ -306,7 +336,8 @@ $(document).ready(function() {
                     }
                 }
             }, { // Moderate breeze
-                from: 10,
+              zIndex: 111110, // Positioning of the label.
+                from: 11,
                 to: 15,
                 color: 'rgba(244, 244, 66, .1)',
                 label: {
@@ -316,6 +347,7 @@ $(document).ready(function() {
                     }
                 }
             }, { // Fresh breeze
+              zIndex: 111110, // Positioning of the label.
                 from: 15,
                 to: 25,
                 color: 'rgba(244, 167, 50, 0.1)',
@@ -325,7 +357,8 @@ $(document).ready(function() {
                         color: '#606060'
                     }
                 }
-            }, { // Strong breeze
+              }, { // Strong breeze
+              zIndex: 111110, // Positioning of the label.
                 from: 25,
                 to: 100,
                 color: 'rgba(255, 0, 0, .1)',
@@ -335,15 +368,9 @@ $(document).ready(function() {
                         color: '#606060'
                     }
                 }
-            }
+              }
             ]
-            // stackLabels: {
-            //     enabled: false,
-            //     style: {
-            //         fontWeight: 'bold',
-            //         color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-            //     }
-            // }
+
         },
         legend: {
             align: 'right',
@@ -390,7 +417,34 @@ $(document).ready(function() {
         yAxis: {
             title: {
                 text: 'Average duration of shower (min.)'
+            },
+            plotLines: [
+              {
+                color: 'red', // Color value
+                // dashStyle: 'longdashdot', // Style of the plot line. Default to solid
+                value: 8.50, // Value of where the line will appear
+                width: 2, // Width of the line
+                label: {
+                  text: 'National Avg.', // Content of the label.
+                  align: 'left', // Positioning of the label.
+                  textalign: 'left', // Positioning of the label.
+                  y: 295, // Positioning of the label.
+                  rotation: 0, // Positioning of the label.
+                }
+            },{
+                color: 'orange', // Color value
+                // dashStyle: 'longdashdot', // Style of the plot line. Default to solid
+                value: 7.8, // Value of where the line will appear
+                width: 2, // Width of the line
+                label: {
+                  text: 'County Avg.', // Content of the label.
+                  align: 'right', // Positioning of the label.
+                  textalign: 'left', // Positioning of the label.
+                  y: 295, // Positioning of the label.
+                  rotation: 0, // Positioning of the label.
+                }
             }
+          ]
 
         },
         legend: {

@@ -5,16 +5,16 @@
 
 <div class="row wrapper border-bottom white-bg page-heading2">
     <div class="col-lg-10">
-        <h2 class="m-l-md">Bathroom Page</h2>
+        <h2 class="m-l-md">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt5iG0vLTAq0fVdmjAifQ9423T6tddvwz8iQEgh61tGndvqNLQmw" style="width:35px; height:35px; display:inline; margin-right:10px;" alt="image" class="img-responsive img-circle">
+          <%= @bathroom.name %>
+        </h2>
     </div>
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row m-b-sm m-t-sm">
 	    <!-- <div class="col-md-4 col-md-offset-1"> -->
-	    <div class="col-md-3 " style="margin-top:45px;">
-	        <div class="profile-image m-l-lg">
-	            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt5iG0vLTAq0fVdmjAifQ9423T6tddvwz8iQEgh61tGndvqNLQmw" class="img-circle circle-border m-b-md" alt="profile">
-	        </div>
+	    <!-- <div class="col-md-3 " style="margin-top:45px;">
 	        <div class="profile-info">
 	            <div class="">
 	                <div>
@@ -26,10 +26,10 @@
 	                        There are many variations of passages of Lorem Ipsum available, but the majority
 	                        have suffered alteration in some form Ipsum available.
 	                    </small> -->
-	                </div>
+	                <!-- </div>
 	            </div>
 	        </div>
-	    </div>
+	    </div> -->
 
 	<!-- </div> -->
 	<!-- <div class="row"> -->
@@ -49,28 +49,28 @@
 				<div style="height:160px;" class="ibox-content">
 					<span class="text-right m-t-lg">
 							<% if @available %>
-								<h2 class="text-navy m-b-md">
-									<i class="fa fa-circle"></i> Available
-								</h2>
-								<p> Last Used <%= time_ago_in_words(@last_shower.end_time) %> ago
-								<p> by
-									<a class="text-navy" href="/users/<%=@last_shower.user.id%>">
-										<%=@last_shower.user.full_name%>
-									</a>
-								</p>
+  								<h2 class="text-navy m-b-md">
+  									<i class="fa fa-circle"></i> Available
+  								</h2>
+  								<p> Last Used <%= time_ago_in_words(@last_shower.end_time) %> ago
+  								<p> by
+  									<a class="text-navy" href="/users/<%=@last_shower.user.id%>">
+  										<%=@last_shower.user.full_name%>
+  									</a>
+  								</p>
 							<% else %>
-								<h2 class="text-danger m-b-md">
-									<i class="fa fa-ban"></i> Taken
-								</h2>
-								<h3>
-									Current User:
-									<a href="/users/<%=@shower_user.id%>">
-										<img style="width:50px; height:50px; display:inline;" alt="image" class="img-responsive img-circle" src="<%= @shower_user.avatar.url(:thumb) %>">
-									</a>
-								</h3>
-								<p>
-									Shower Started <%= time_ago_in_words(@shower_current.start_time) %> ago
-								</p>
+  								<h2 class="text-danger m-b-md">
+  									<i class="fa fa-ban"></i> Taken
+  								</h2>
+  								<h3>
+  									Current User:
+  									<a href="/users/<%=@shower_user.id%>">
+  										<img style="width:50px; height:50px; display:inline;" alt="image" class="img-responsive img-circle" src="<%= @shower_user.avatar.url(:thumb) %>">
+  									</a>
+  								</h3>
+  								<p>
+  									Shower Started <%= time_ago_in_words(@shower_current.start_time) %> ago
+  								</p>
 							<% end %>
 					</span>
 				</div>
@@ -192,16 +192,6 @@
 </div>
 <script>
   function nameSorter(a, b) {
-      // a_beg = a.indexOf('">');
-      // a_end = a.indexOf('</a>');
-      // b_beg = b.indexOf('">');
-      // b_end = b.indexOf('</a>');
-			// a = a.slice(a_beg, a_end);
-			// b = b.slice(b_beg, b_end);
-			// a_beg = a.indexOf('">', 3);
-			// b_beg = b.indexOf('">', 3);
-			// a = a.slice(a_beg);
-			// b = b.slice(b_beg);
 			a = a.name;
 			b = b.name;
       if (a > b) return 1;

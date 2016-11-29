@@ -32,9 +32,16 @@
             </li>
             <li class="<%= 'active' if request.fullpath.match(/^\/bathrooms\/\d+/)  %>">
               <%=  %>
-                <%= link_to "/bathrooms/"+current_house.bathrooms.first.id.to_s do %>
-                  <i class="fa fa-tint"></i> <span class="nav-label">Bathroom</span>
-                <% end %>
+                <a href="#"><i class="fa fa-tint"></i>
+                  <span class="nav-label">Bathrooms</span><span class="fa arrow"></span>
+                </a>
+                    <ul class="nav nav-second-level">
+                        <li class="<%= 'active' if request.fullpath.match(/^\/bathrooms\/\d+/)  %>">
+                          <%= link_to "/bathrooms/"+current_house.bathrooms.first.id.to_s do %>
+                            <span class="nav-label"><%= current_house.bathrooms.first.name %></span>
+                          <% end %>
+                        </li>
+                    </ul>
             </li>
 
         </ul>
