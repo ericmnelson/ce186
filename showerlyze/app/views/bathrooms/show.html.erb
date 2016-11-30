@@ -33,115 +33,168 @@
 
 	<!-- </div> -->
 	<!-- <div class="row"> -->
-		<div class="col-md-3">
-			<div class="ibox">
-				<div class="ibox-title">
-					<h5>Real-time Status</h5>
-					<div class="ibox-tools">
-							<a class="collapse-link">
-									<i class="fa fa-chevron-up"></i>
-							</a>
-							<a class="close-link">
-									<i class="fa fa-times"></i>
-							</a>
-					</div>
-				</div>
-				<div style="height:160px;" class="ibox-content">
-					<span class="text-right m-t-lg">
-							<% if @available %>
-  								<h2 class="text-navy m-b-md">
-  									<i class="fa fa-circle"></i> Available
-  								</h2>
-  								<p> Last Used <%= time_ago_in_words(@last_shower.end_time) %> ago
-  								<p> by
-  									<a class="text-navy" href="/users/<%=@last_shower.user.id%>">
-  										<%=@last_shower.user.full_name%>
+		<div class="col-lg-6">
+  		<div class="col-lg-6">
+  			<div class="ibox">
+  				<div class="ibox-title">
+  					<h5>Real-time Status</h5>
+  					<div class="ibox-tools">
+  							<a class="collapse-link">
+  									<i class="fa fa-chevron-up"></i>
+  							</a>
+  							<a class="close-link">
+  									<i class="fa fa-times"></i>
+  							</a>
+  					</div>
+  				</div>
+  				<div style="height:160px;" class="ibox-content">
+  					<span class="text-right m-t-lg">
+  							<% if @available %>
+    								<h2 class="text-navy m-b-md">
+    									<i class="fa fa-circle"></i> Available
+    								</h2>
+    								<p> Last Used <%= time_ago_in_words(@last_shower.end_time) %> ago
+    								<p> by
+    									<a class="text-navy" href="/users/<%=@last_shower.user.id%>">
+    										<%=@last_shower.user.full_name%>
+    									</a>
+    								</p>
+  							<% else %>
+    								<h2 class="text-danger m-b-md">
+    									<i class="fa fa-ban"></i> Taken
+    								</h2>
+    								<h3>
+    									Current User:
+    									<a href="/users/<%=@shower_user.id%>">
+    										<img style="width:50px; height:50px; display:inline;" alt="image" class="img-responsive img-circle" src="<%= @shower_user.avatar.url(:thumb) %>">
+    									</a>
+    								</h3>
+    								<p>
+    									Shower Started <%= time_ago_in_words(@shower_current.start_time) %> ago
+    								</p>
+  							<% end %>
+  					</span>
+  				</div>
+  			</div>
+  		</div>
+  		<div class="col-lg-6">
+  	    <div class="ibox">
+  					<div class="ibox-title">
+  						<h5>Usage Statistics</h5>
+  						<div class="ibox-tools">
+  							<a class="collapse-link">
+  								<i class="fa fa-chevron-up"></i>
+  							</a>
+  							<a class="close-link">
+  								<i class="fa fa-times"></i>
+  							</a>
+  						</div>
+  					</div>
+  	        <div style="height:160px;" class="ibox-content">
+  	          <table class="table table-stripped m-t-md text-right">
+  	            <tbody>
+  	            <tr>
+  								<td>Total Showered</td>
+  	              <td><strong><%= @total_duration.round(1) %> hours</strong></td>
+  	            </tr>
+  	            <tr>
+  								<td>Shortest Shower</td>
+  								<td><strong> <%= @min_length.round(1) %> min. </strong></td>
+  	            </tr>
+  	            <tr>
+  								<td>Longest Shower</td>
+  								<td><strong> <%= @max_length.round(1) %> min. </strong></td>
+  	            </tr>
+  	            </tbody>
+  	          </table>
+  		      </div>
+  		    </div>
+  		</div>
+  		<div class="col-lg-6">
+  	    <div class="ibox">
+  					<div class="ibox-title">
+  						<h5>Temperature Statistics</h5>
+  						<div class="ibox-tools">
+  							<a class="collapse-link">
+  								<i class="fa fa-chevron-up"></i>
+  							</a>
+  							<a class="close-link">
+  								<i class="fa fa-times"></i>
+  							</a>
+  						</div>
+  					</div>
+  	        <div style="height:160px;" class="ibox-content">
+  	            <table class="table table-stripped m-t-md text-right">
+  	                <tbody>
+  	                <tr>
+  										<td> Avg. Temperature</td>
+  	                  <td><strong>   <%= @avg_temp.round(1) %> &#8457</strong></td>
+  	                </tr>
+  	                <tr>
+  										<td> Min. Temperature</td>
+  										<td><strong>   <%= @min_temp.round(1) %> &#8457</strong></td>
+  	                </tr>
+  	                <tr>
+  										<td> Max. Temperature</td>
+  										<td><strong>   <%= @max_temp.round(1) %> &#8457 </strong></td>
+  	                </tr>
+  	                </tbody>
+  	            </table>
+  		      </div>
+  		    </div>
+  		</div>
+    </div>
+    <div class="col-lg-6">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Water Bill Projection</h5>
+          <div class="ibox-tools">
+            <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+            <a class="close-link">
+              <i class="fa fa-times"></i>
+            </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="table-responsive m-t">
+              <table class="table invoice-table">
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Consumption (G)</th>
+                    <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @price_info.each do |user, cons| %>
+                <tr>
+                  <td>
+                    <a style="color:#2f4050;" href="/users/<%=user.id%>">
+  										<img style="width:30px; height:30px; display:inline; margin-right:10px;" alt="image" class="img-responsive img-circle" src="<%= user.avatar.url(:thumb) %>">
+  										<%= user.full_name %>
   									</a>
-  								</p>
-							<% else %>
-  								<h2 class="text-danger m-b-md">
-  									<i class="fa fa-ban"></i> Taken
-  								</h2>
-  								<h3>
-  									Current User:
-  									<a href="/users/<%=@shower_user.id%>">
-  										<img style="width:50px; height:50px; display:inline;" alt="image" class="img-responsive img-circle" src="<%= @shower_user.avatar.url(:thumb) %>">
-  									</a>
-  								</h3>
-  								<p>
-  									Shower Started <%= time_ago_in_words(@shower_current.start_time) %> ago
-  								</p>
-							<% end %>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-3">
-	    <div class="ibox">
-					<div class="ibox-title">
-						<h5>Usage Statistics</h5>
-						<div class="ibox-tools">
-							<a class="collapse-link">
-								<i class="fa fa-chevron-up"></i>
-							</a>
-							<a class="close-link">
-								<i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
-	        <div style="height:160px;" class="ibox-content">
-	          <table class="table table-stripped m-t-md text-right">
-	            <tbody>
-	            <tr>
-								<td>Total Showered</td>
-	              <td><strong><%= @total_duration.round(1) %> hours</strong></td>
-	            </tr>
-	            <tr>
-								<td>Shortest Shower</td>
-								<td><strong> <%= @min_length.round(1) %> min. </strong></td>
-	            </tr>
-	            <tr>
-								<td>Longest Shower</td>
-								<td><strong> <%= @max_length.round(1) %> min. </strong></td>
-	            </tr>
-	            </tbody>
-	          </table>
-		      </div>
-		    </div>
-		</div>
-		<div class="col-lg-3">
-	    <div class="ibox">
-					<div class="ibox-title">
-						<h5>Temperature Statistics</h5>
-						<div class="ibox-tools">
-							<a class="collapse-link">
-								<i class="fa fa-chevron-up"></i>
-							</a>
-							<a class="close-link">
-								<i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
-	        <div style="height:160px;" class="ibox-content">
-	            <table class="table table-stripped m-t-md text-right">
-	                <tbody>
-	                <tr>
-										<td> Avg. Temperature</td>
-	                  <td><strong>   <%= @avg_temp.round(1) %> &#8457</strong></td>
-	                </tr>
-	                <tr>
-										<td> Min. Temperature</td>
-										<td><strong>   <%= @min_temp.round(1) %> &#8457</strong></td>
-	                </tr>
-	                <tr>
-										<td> Max. Temperature</td>
-										<td><strong>   <%= @max_temp.round(1) %> &#8457 </strong></td>
-	                </tr>
-	                </tbody>
-	            </table>
-		      </div>
-		    </div>
-		</div>
+                  </td>
+                  <td> <%= 4 * cons.round(1) %></td>
+                  <td> <%= number_to_currency(4 * cons.round(1) * 0.004) %> </td>
+                </tr>
+                <% end %>
+
+                </tbody>
+            </table>
+        </div><!-- /table-responsive -->
+
+        <table class="table invoice-total">
+            <tbody>
+            <tr>
+                <td><strong>TOTAL :</strong></td>
+                <td><%=number_to_currency 4*@total_price%></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
 	</div>
 	<div class="row">
 		<div class="col-lg-10 col-lg-offset-1">

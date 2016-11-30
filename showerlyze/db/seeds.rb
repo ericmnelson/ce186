@@ -29,8 +29,8 @@ bathroom_main.save
 
 ## USERS ##
 users = {gdi => [{:first_name => 'Giorgia', :last_name => 'Willits',
-                   :phone_number => '7148759292', :email => 'gw@berkeley.edu',
-                   :password => 'gw', :passcode => 'apple', :preferred_temp => 90,
+                   :phone_number => '7148759292', :email => 'demo@berkeley.edu',
+                   :password => 'demo', :passcode => 'apple', :preferred_temp => 90,
                    :avatar => File.new("#{Rails.root}/app/assets/images/gige.jpg")
                  },
                   {:first_name => 'Valeriya', :last_name => 'Imeshiva',
@@ -169,7 +169,7 @@ User.all.each do |user|
     end
   end
 end
-# 
+#
 # cur_shower = Shower.create!({:start_time => 1.minute.ago})
 # cur_shower.bathroom=bathroom_main
 # cur_shower.user=gige
