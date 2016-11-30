@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
 <!-- Latest compiled and minified JavaScript -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
 
 <div class="row wrapper border-bottom white-bg page-heading2">
     <div class="col-lg-10">
@@ -33,7 +34,7 @@
 
 	<!-- </div> -->
 	<!-- <div class="row"> -->
-		<div class="col-lg-6">
+		<div class="col-lg-6" style="font-size:13px;">
   		<div class="col-lg-6">
   			<div class="ibox">
   				<div class="ibox-title">
@@ -110,6 +111,24 @@
   		      </div>
   		    </div>
   		</div>
+      <div class="col-lg-6">
+          <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                  <h5>Daily Showers</h5>
+                  <div class="ibox-tools">
+                      <a class="collapse-link">
+                          <i class="fa fa-chevron-up"></i>
+                      </a>
+                      <a class="close-link">
+                          <i class="fa fa-times"></i>
+                      </a>
+                  </div>
+              </div>
+              <div style="height:180px;" class="ibox-content text-center">
+                  <span id="sparkline9"></span>
+              </div>
+          </div>
+      </div>
   		<div class="col-lg-6">
   	    <div class="ibox">
   					<div class="ibox-title">
@@ -123,7 +142,7 @@
   							</a>
   						</div>
   					</div>
-  	        <div style="height:160px;" class="ibox-content">
+  	        <div style="height:180px;" class="ibox-content">
   	            <table class="table table-stripped m-t-md text-right">
   	                <tbody>
   	                <tr>
@@ -265,4 +284,14 @@
 		if (a < b) return -1;
 		return 0;
 	}
+  $(document).ready(function() {
+    $("#sparkline9").sparkline([6,4,5,8,5,4,6,5,6,5,7,6], {
+          type: 'line',
+          lineWidth: 1,
+          height: '150px',
+          width: '200px',
+          lineColor: '#48FEFF',
+          fillColor: '#ffffff',
+      });
+    });
 </script>
