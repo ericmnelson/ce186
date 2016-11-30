@@ -3,6 +3,7 @@ class BathroomsController < ApplicationController
     @bathroom = Bathroom.find_by_id(params[:id])
     @total_showers = @bathroom.showers.length
     @total_duration = 0
+    @wk_duration = 0
     @avg_temp = 0
     @min_temp = 10000000
     @max_temp = 0
@@ -27,14 +28,15 @@ class BathroomsController < ApplicationController
         @min_temp = avg_temp
       end
       if s.start_time < 7.days.ago
+        @wk_duration += 4 * 2.1 * dur_minute
         if @price_info.key? s.user
-          @price_info[s.user] += 2.1 * dur_minute
+          @price_info[s.user] += 4 * 2.1 * dur_minute
         else
-          @price_info[s.user] = 2.1 * dur_minute
+          @price_info[s.user] = 4* 2.1 * dur_minute
         end
       end
     end
-    @total_price = (2.1 * @total_duration * 60 * 0.004).round(2)
+    @total_price = @wk_duration* 0.004
     @num_users = 5
     @available = @bathroom.showers.current.nil?
     if not @available

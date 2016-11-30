@@ -176,8 +176,8 @@
   										<%= user.full_name %>
   									</a>
                   </td>
-                  <td> <%= 4 * cons.round(1) %></td>
-                  <td> <%= number_to_currency(4 * cons.round(1) * 0.004) %> </td>
+                  <td> <%= cons.round(1) %></td>
+                  <td> <%= number_to_currency(cons.round(1) * 0.004) %> </td>
                 </tr>
                 <% end %>
 
@@ -189,7 +189,7 @@
             <tbody>
             <tr>
                 <td><strong>TOTAL :</strong></td>
-                <td><%=number_to_currency 4*@total_price%></td>
+                <td><%=number_to_currency @total_price%></td>
             </tr>
             </tbody>
         </table>
